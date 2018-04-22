@@ -1,0 +1,45 @@
+
+form#editServiceForm
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal' aria-label='Close')
+        span(aria-hidden='true') &times;
+      h4.modal-title Edit Service
+    .modal-body              
+        .form-group
+          label(for='name') Name
+          input#name.form-control(type='text' name='name' placeholder='Name' required value=service.name)
+        .form-group
+          label(for='price') Price
+          input#price.form-control(type='number' name='price' placeholder='Price' required value=service.price)
+        .form-group
+          label(for='type') Type
+          select#type.form-control(name='type' placeholder='Type')
+            option(value='Per-person' selected=(service.type=='Per-person')) Per-person
+            option(value='Per-room' selected=(service.type=='Per-room')) Per-room                
+    .modal-footer
+      .div#errorMessage
+      button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+      button#saveBtn.btn.btn-primary(type='submit') Update
+
+script.
+  $('#editServiceForm').submit((e)=>{
+    e.preventDefault();
+    // Send Post request with customer
+    $.ajax({
+      url: "/api/services/#{service._id}",
+      method: 'PUT',      
+      data: {
+        "name": $('#name').val(),
+        "price": $('#price').val(),
+        "type": $('#type').val()
+      },
+      success: data=>{
+        $('#serviceModal').modal('toggle');
+        $('#serviceList').html(data);
+      },
+      error: ()=>{
+        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      }
+    });
+  });

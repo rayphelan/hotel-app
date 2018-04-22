@@ -35,10 +35,12 @@ var indexRouter = require('./routes/index');
 //var bookingsRouter = require('./routes/bookings');
 var customersRouter = require('./routes/customers');
 var roomsRouter = require('./routes/rooms');
+var servicesRouter = require('./routes/services');
 app.use('/', indexRouter);
 //app.use('/api/bookings', bookingsRouter);
 app.use('/api/customers', customersRouter);
 app.use('/api/rooms', roomsRouter);
+app.use('/api/services', servicesRouter);
 
 // Start server
 app.listen(3000, ()=>{

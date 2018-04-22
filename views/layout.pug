@@ -50,117 +50,20 @@ body
                 i.fa.fa-users.fa-fw
                 |  Customers
             li
-              a#bookings-btn.sidebar-btns(href='#bookings')
+              a#bookings-btn.sidebar-btns(href='#bookings' onclick="getBookingsFunction()")
                 i.fa.fa-suitcase.fa-fw
                 |  Bookings
             li
-              a#services-btn.sidebar-btns(href='#services')
+              a#services-btn.sidebar-btns(href='#services' onclick="getServicesFunction()")
                 i.fa.fa-bell-o.fa-fw
                 |  Services
     block content
 
 script.
 
-  // Auto Load content
-  $(function() {
-    switch(window.location.hash.substr(1)) {
-      case 'dashboard':
-        getDashboardFunction();
-      break;
-      case 'rooms':
-        getRoomsFunction();
-      break;
-      case 'customers':
-        getCustomersFunction();
-      break;
-      case 'bookings':
-        getBookingsFunction();
-      break;
-      case 'services':
-        getServicesFunction();
-      break;
-      default: getDashboardFunction();
-    };   
-  })
-
-
-  // Get Dashboard Function
-  const getDashboardFunction = () => {
-    $('#page-wrapper').fadeOut(400, function() {
-      $.get('/dashboard', html=>{
-        $('#page-wrapper').html(html).fadeIn(300);
-        $('.sidebar-btns').blur();
-        $('#dashboard-btn').focus();
-      })
-    });
-  }
-
-  // Get Rooms Function
-  const getRoomsFunction = ()=>{
-    $('#page-wrapper').fadeOut(400, function() {
-      $.get('/rooms', html => {          
-        $('#page-wrapper').html(html).fadeIn(300);      
-        $('.sidebar-btns').blur();
-        $('#rooms-btn').focus();
-      })
-    });    
-  }
-
-  // Get Customers Function
-  const getCustomersFunction = ()=>{
-    $('#page-wrapper').fadeOut(400, function() {
-      $.get('/customers', html=>{
-        $('#page-wrapper').html(html).fadeIn(300);
-        $('.sidebar-btns').blur();
-        $('#customers-btn').focus();
-      })
-    });
-  }
-
-  // Edit Room Function
-  const editRoomFunction = room_id => {
-    $.get('/rooms/edit/' + room_id, html => {        
-      $('#modalContent').html(html);
-    });
-  }
-
-  // Delete Room Function
-  const deleteRoomFunction = room_id => {
-    $.ajax({
-      url: "/api/rooms/" + room_id,
-      method: 'DELETE',      
-      success: data=>{
-        //$('#roomList').html(data);
-        $('#row'+data).fadeOut(1000);
-      },
-      error: ()=>{
-        console.log('Can not delete room');
-      }
-    });      
-  }
-
-  // Edit Customer Function
-  const editCustomerFunction = customer_id => {
-    $.get('/customers/edit/' + customer_id, html => {        
-      $('#modalContent').html(html);
-    });
-  }
-
-  // Delete Customer Function
-  const deleteCustomerFunction = customer_id => {
-    $.ajax({
-      url: "/api/customers/" + customer_id,
-      method: 'DELETE',      
-      success: data=>{        
-        $('#row'+data).fadeOut(1000);
-      },
-      error: ()=>{
-        console.log('Can not delete customer');
-      }
-    });      
-  }
-
-
+  
+// Customer Javascript
+script(src='js/custom.js')
 // Bootstrap Core JavaScript
 script(src='vendor/bootstrap/js/bootstrap.min.js')
 // Metis Menu Plugin JavaScript

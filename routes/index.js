@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 var Room = require('../models/room');
 var Customer = require('../models/customer');
+var Service = require('../models/service');
 
 
 // Index page
 router.get('/',(req, res, next)=>{
     res.render('index', { title: 'Hotel Manager' });
 });
-
 
 // Dashboard
 router.get('/dashboard',(req,res,next)=>{
@@ -65,11 +65,27 @@ router.get('/rooms/edit/:id', (req, res, next)=> {
     })   
 });
 
+// Services ----------------------------------------------------------
 // Services page
-router.get('/services',(req, res, next)=>{
-    res.render('services', { title: 'Hotel Management: Services' });
+router.get('/services', (req, res, next) => {
+    res.render('services',{ layout:false });
+});
+
+// Add Services Partial Page
+router.get('/services/new', (req, res, next)=> {
+    res.render('partials/service-new', { layout:false });
+});
+
+// Edit Service Partial Page
+router.get('/services/edit/:id', (req, res, next)=> {    
+    Service.findById(req.params.id, (err, service)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/service-edit',{ layout:false, service:service });
+    })   
 });
 
 
-// Export Router
+// Export Router ----------------------------------------------------
 module.exports = router;

@@ -3,7 +3,7 @@ var router = express.Router();
 var Room = require('../models/room');
 var Customer = require('../models/customer');
 var Service = require('../models/service');
-
+var Roomtype = require('../models/roomtype');
 
 // Index page
 router.get('/',(req, res, next)=>{
@@ -20,12 +20,10 @@ router.get('/dashboard',(req,res,next)=>{
 router.get('/customers',(req, res, next)=>{
     res.render('customers', { layout: false });
 });
-
 // Add Customer Partial Page
 router.get('/customers/new', (req, res, next)=> {
     res.render('partials/customer-new', { layout:false });
 });
-
 // Edit Customer Partial Page
 router.get('/customers/edit/:id', (req, res, next)=> {    
     Customer.findById(req.params.id, (err, customer)=>{
@@ -49,12 +47,10 @@ router.get('/bookings',(req, res, next)=>{
 router.get('/rooms', (req, res, next) => {
     res.render('rooms',{ layout:false });
 });
-
 // Add Room Partial Page
 router.get('/rooms/new', (req, res, next)=> {
     res.render('partials/room-new', { layout:false });
 });
-
 // Edit Room Partial Page
 router.get('/rooms/edit/:id', (req, res, next)=> {    
     Room.findById(req.params.id, (err, room)=>{
@@ -75,7 +71,6 @@ router.get('/services', (req, res, next) => {
 router.get('/services/new', (req, res, next)=> {
     res.render('partials/service-new', { layout:false });
 });
-
 // Edit Service Partial Page
 router.get('/services/edit/:id', (req, res, next)=> {    
     Service.findById(req.params.id, (err, service)=>{
@@ -83,6 +78,27 @@ router.get('/services/edit/:id', (req, res, next)=> {
             res.status(500).json({errmsg:err});
         }
         res.render('partials/service-edit',{ layout:false, service:service });
+    })   
+});
+
+
+// Room Types ----------------------------------------------------------
+// Room Types page
+router.get('/roomtypes', (req, res, next) => {
+    res.render('roomtypes',{ layout:false });
+});
+
+// Add RoomType Partial Page
+router.get('/roomtypes/new', (req, res, next)=> {
+    res.render('partials/roomtype-new', { layout:false });
+});
+// Edit RoomType Partial Page
+router.get('/roomtypes/edit/:id', (req, res, next)=> {    
+    Roomtype.findById(req.params.id, (err, roomtype)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/roomtype-edit',{ layout:false, roomtype:roomtype });
     })   
 });
 

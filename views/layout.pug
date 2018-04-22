@@ -11,7 +11,7 @@ head
   // Bootstrap Core CSS
   link(href='vendor/bootstrap/css/bootstrap.min.css' rel='stylesheet')
   // Custom CSS
-  link(href='dist/css/styles.css' rel='stylesheet')
+  link(href='custom/styles.css' rel='stylesheet')
   // Custom Fonts
   link(href='vendor/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css')
   // Favicon
@@ -39,23 +39,27 @@ body
                 i.fa.fa-dashboard.fa-fw
                 |  Dashboard
             li
-              a#rooms-btn.sidebar-btns(href='#rooms' onclick="getRoomsFunction()")
-                i.fa.fa-tag.fa-fw
-                |  Rooms
+              a#bookings-btn.sidebar-btns(href='#bookings' onclick="getBookingsFunction()")
+                i.fa.fa-suitcase.fa-fw
+                |  Bookings
             li
               a#customers-btn.sidebar-btns(href='#customers' onclick="getCustomersFunction()")
                 i.fa.fa-users.fa-fw
                 |  Customers
             li
-              a#bookings-btn.sidebar-btns(href='#bookings' onclick="getBookingsFunction()")
-                i.fa.fa-suitcase.fa-fw
-                |  Bookings
+              a#rooms-btn.sidebar-btns(href='#rooms' onclick="getRoomsFunction()")
+                i.fa.fa-tag.fa-fw
+                |  Rooms
+            li
+              a#roomtypes-btn.sidebar-btns(href='#roomtypes' onclick="getRoomtypesFunction()")
+                i.fa.fa-gear.fa-fw
+                |  Room Types
             li
               a#services-btn.sidebar-btns(href='#services' onclick="getServicesFunction()")
                 i.fa.fa-bell-o.fa-fw
                 |  Services
     block content
 // Customer Javascript
-script(src='js/custom.js')
+script(src='custom/custom.js')
 // Bootstrap Core JavaScript
 script(src='vendor/bootstrap/js/bootstrap.min.js')

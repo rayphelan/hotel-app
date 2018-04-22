@@ -1,0 +1,23 @@
+div
+  table.table.table-hover
+    thead
+      tr.table-danger
+        th(scope='col') Room Type
+        th(scope='col') Max Adults
+        th(scope='col') Max Children
+        th(scope='col') Max Infants  
+        th.text-right(scope='col') Operations               
+    tbody
+      each roomtype in roomtypes
+        tr(id='row'+roomtype._id)
+          td #{roomtype.type}
+          td #{roomtype.max_adults}
+          td #{roomtype.max_childs}
+          td #{roomtype.max_infants}    
+          td.text-right
+            a.btn.btn-warning(onclick='editRoomtypeFunction("'+roomtype._id+'")' type='button' data-toggle='modal' data-target='#roomtypeModal')
+              i.fa.fa-pencil.fa-fw
+              |  Edit
+            a.btn.btn-danger(onclick='deleteRoomtypeFunction("'+roomtype._id+'")' type='button')
+              i.fa.fa-times.fa-fw
+              |  Delete       

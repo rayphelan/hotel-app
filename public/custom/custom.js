@@ -7,6 +7,9 @@ $(function() {
     case 'rooms':
       getRoomsFunction();
     break;
+    case 'roomtypes':
+      getRoomtypesFunction();
+    break;
     case 'customers':
       getCustomersFunction();
     break;
@@ -76,6 +79,17 @@ const getServicesFunction = ()=>{
   });
 }
 
+// Get Roomtypes Function
+const getRoomtypesFunction = ()=>{
+  $('#page-wrapper').fadeOut(400, function() {
+    $.get('/roomtypes', html=>{
+      $('#page-wrapper').html(html).fadeIn(300);
+      $('.sidebar-btns').blur();
+      $('#roomtypes-btn').focus();
+    })
+  });
+}
+
 // Edit and Delete Functions -------------------------------------------
 // Edit Room Function
 const editRoomFunction = room_id => {
@@ -83,7 +97,6 @@ const editRoomFunction = room_id => {
     $('#modalContent').html(html);
   });
 }
-
 // Delete Room Function
 const deleteRoomFunction = room_id => {
   $.ajax({
@@ -105,7 +118,6 @@ const editCustomerFunction = customer_id => {
     $('#modalContent').html(html);
   });
 }
-
 // Delete Customer Function
 const deleteCustomerFunction = customer_id => {
   $.ajax({
@@ -126,7 +138,6 @@ const editBookingFunction = booking_id => {
     $('#modalContent').html(html);
   });
 }
-
 // Delete Booking Function
 const deleteBookingFunction = booking_id => {
   $.ajax({
@@ -147,7 +158,6 @@ const editServiceFunction = service_id => {
     $('#modalContent').html(html);
   });
 }
-
 // Delete Service Function
 const deleteServiceFunction = service_id => {
   $.ajax({
@@ -158,6 +168,26 @@ const deleteServiceFunction = service_id => {
     },
     error: ()=>{
       console.log('Can not delete service');
+    }
+  });      
+}
+
+// Edit RoomType Function
+const editRoomtypeFunction = roomtype_id => {
+  $.get('/roomtypes/edit/' + roomtype_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete RoomType Function
+const deleteRoomtypeFunction = roomtype_id => {
+  $.ajax({
+    url: "/api/roomtypes/" + roomtype_id,
+    method: 'DELETE',      
+    success: data=>{        
+      $('#row'+data).fadeOut(1000);
+    },
+    error: ()=>{
+      console.log('Can not delete room type');
     }
   });      
 }

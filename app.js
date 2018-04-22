@@ -16,6 +16,12 @@ var mongoose = require('mongoose');
 // Connect mongoose to MongoDB provided by mLab (Database as a service) DAAS
 mongoose.connect('mongodb://jsonapi:sw0DHyayHmnKcPxf@ds139459.mlab.com:39459/hotelsdb');
 
+// Compress
+var compression = require('compression');
+
+//	Use Compression
+app.use(compression());
+
 // Tell the body-parser that we want to use JSON format
 app.use(bodyParser.json());
 
@@ -35,11 +41,13 @@ var indexRouter = require('./routes/index');
 //var bookingsRouter = require('./routes/bookings');
 var customersRouter = require('./routes/customers');
 var roomsRouter = require('./routes/rooms');
+var roomtypeRouter = require('./routes/roomtypes')
 var servicesRouter = require('./routes/services');
 app.use('/', indexRouter);
 //app.use('/api/bookings', bookingsRouter);
 app.use('/api/customers', customersRouter);
 app.use('/api/rooms', roomsRouter);
+app.use('/api/roomtypes', roomtypeRouter);
 app.use('/api/services', servicesRouter);
 
 // Start server

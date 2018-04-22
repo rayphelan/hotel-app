@@ -1,0 +1,47 @@
+
+form#editRoomtypeForm
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal' aria-label='Close')
+        span(aria-hidden='true') &times;
+      h4.modal-title Edit Room Type
+    .modal-body              
+        .form-group
+          label(for='type') Room Type
+          input#type.form-control(type='text' name='type' placeholder='Room Type' required value=roomtype.type)
+        .form-group
+          label(for='max_adults') Maximum Adults
+          input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults' required value=roomtype.max_adults)
+        .form-group
+          label(for='max_childs') Maximum Children
+          input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children' required value=roomtype.max_childs)
+        .form-group
+          label(for='max_infants') Maximum Infants
+          input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants' required value=roomtype.max_infants)              
+    .modal-footer
+      .div#errorMessage
+      button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+      button#saveBtn.btn.btn-primary(type='submit') Update
+
+script.
+  $('#editRoomtypeForm').submit((e)=>{
+    e.preventDefault();
+    // Send Post request with Room Type
+    $.ajax({
+      url: "/api/roomtypes/#{roomtype._id}",
+      method: 'PUT',      
+      data: {
+        "type": $('#type').val(),
+        "max_adults": $('#max_adults').val(),
+        "max_childs": $('#max_childs').val(),
+        "max_infants": $('#max_infants').val()
+      },
+      success: data=>{
+        $('#roomtypeModal').modal('toggle');
+        $('#roomtypeList').html(data);
+      },
+      error: ()=>{
+        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      }
+    });
+  });

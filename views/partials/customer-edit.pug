@@ -8,13 +8,13 @@ form#editCustomerForm
     .modal-body              
         .form-group
           label(for='firstName') First name
-          input#firstName.form-control(type='text' name='firstName' placeholder='First name' required value=customer.firstName)
+          input#firstName.form-control(type='text' name='firstName' placeholder='First name' value=customer.firstName)
         .form-group
           label(for='lastName') Last name
-          input#lastName.form-control(type='text' name='lastName' placeholder='Last name' required value=customer.lastName)
+          input#lastName.form-control(type='text' name='lastName' placeholder='Last name' value=customer.lastName)
         .form-group
           label(for='email') Email
-          input#email.form-control(type='email' name='email' placeholder='Email' required value=customer.email)
+          input#email.form-control(type='email' name='email' placeholder='Email' value=customer.email)
         .form-group
           label(for='phone') Phone
           input#phone.form-control(type='text' name='phone' placeholder='Phone' value=customer.phone)
@@ -46,8 +46,13 @@ script.
         $('#customerModal').modal('toggle');
         $('#customerList').html(data);
       },
-      error: ()=>{
-        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      error: (err)=>{
+        var error_messages = [];
+        $.each(err.responseJSON.errors, (field, error)=>{
+          $('#'+field).parent().addClass('has-error');
+          error_messages.push(error.msg);
+        });        
+        $('#errorMessage').html('<p class="text-danger">'+error_messages.join(' ')+'</p>');
       }
     });
   });

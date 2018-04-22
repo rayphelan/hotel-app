@@ -8,15 +8,15 @@ form#editRoomForm
     .modal-body              
         .form-group
           label(for='name') Room name
-          input#name.form-control(type='text' name='name' placeholder='Room name' required value=room.name)
+          input#name.form-control(type='text' name='name' placeholder='Room name' value=room.name)
         .form-group
           label(for='roomtype') Room Type
-          select#roomtype.form-control(name='roomtype' required)            
+          select#roomtype.form-control(name='roomtype')            
             each roomtype in roomtypes
               option(value=roomtype._id selected=(room.roomtype.toString() == roomtype._id)) #{roomtype.type}
         .form-group
           label(for='price') Price
-          input#price.form-control(type='number' name='price' placeholder='Price' required value=room.price)   
+          input#price.form-control(type='number' name='price' placeholder='Price' value=room.price)   
         .form-group
           label(for='pricePer') Price Per
           select#pricePer.form-control(name='pricePer' placeholder='Type')
@@ -44,8 +44,13 @@ script.
         $('#roomModal').modal('toggle');
         $('#roomList').html(data);
       },
-      error: ()=>{
-        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      error: (err)=>{
+        var error_messages = [];
+        $.each(err.responseJSON.errors, (field, error)=>{
+          $('#'+field).parent().addClass('has-error');
+          error_messages.push(error.msg);
+        });        
+        $('#errorMessage').html('<p class="text-danger">'+error_messages.join(' ')+'</p>');
       }
     });
   });

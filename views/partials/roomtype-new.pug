@@ -8,16 +8,16 @@ form#newRoomtypeForm
     .modal-body              
         .form-group
           label(for='type') Room Type
-          input#type.form-control(type='text' name='type' placeholder='Room Type' required)
+          input#type.form-control(type='text' name='type' placeholder='Room Type')
         .form-group
           label(for='max_adults') Maximum Adults
-          input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults' required)
+          input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults')
         .form-group
           label(for='max_childs') Maximum Children
-          input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children' required)
+          input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children')
         .form-group
           label(for='max_infants') Maximum Infants
-          input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants' required)
+          input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants')
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel
@@ -40,8 +40,13 @@ script.
         $('#roomtypeModal').modal('toggle');
         $('#roomtypeList').html(data);
       },
-      error: ()=>{
-        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      error: (err)=>{
+        var error_messages = [];
+        $.each(err.responseJSON.errors, (field, error)=>{
+          $('#'+field).parent().addClass('has-error');
+          error_messages.push(error.msg);
+        });        
+        $('#errorMessage').html('<p class="text-danger">'+error_messages.join(' ')+'</p>');
       }
     });
   });

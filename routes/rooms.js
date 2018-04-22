@@ -26,9 +26,10 @@ router.get('/', (req, res, next)=>{
 router.post('/', [
 
   // Validate fields
-  body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified.'),
-  body('roomtype').isLength({ min: 1 }).trim().withMessage('Room Type must be specified.'),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),
+  body('name').isLength({ min: 1 }).trim().withMessage('Room Name must be specified. '),
+  body('roomtype').isLength({ min: 1 }).trim().withMessage('Room Type must be specified. '),
+  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified. '),
+  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified. '),
 
   // Sanitize fields.
   sanitizeBody('name').trim(),
@@ -73,9 +74,10 @@ router.post('/', [
 router.put('/:id', [
 
   // Validate fields
-  body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified.'),
-  body('roomtype').isLength({ min: 1 }).trim().withMessage('Room Type must be specified.'),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),
+  body('name').isLength({ min: 1 }).trim().withMessage('Room Name must be specified. '),
+  body('roomtype').isLength({ min: 1 }).trim().withMessage('Room Type must be specified. '),
+  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified. '),
+  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified. '),
 
   // Sanitize fields.
   sanitizeBody('name').trim(),
@@ -104,7 +106,7 @@ router.put('/:id', [
           });
           Room.findByIdAndUpdate(req.params.id, room, {}, function (err, room) {
               if (err) {
-                return res.status(401).json({ "error":err });
+                return res.status(500).json({ "error":err });
               }              
               Room.find({})
               .populate('roomtype')

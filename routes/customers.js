@@ -21,10 +21,10 @@ router.get('/', (req, res, next)=>{
 router.post('/', [
 
   // Validate fields
-  body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
-  body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.'),
-  body('email').isLength({ min: 1 }).trim().withMessage('Email must be specified.'),
-  body('gender').isLength({ min: 1 }).trim().withMessage('Gender must be specified.'),
+  body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified. '),
+  body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified. '),
+  body('email').isLength({ min: 1 }).trim().withMessage('Email must be specified. '),
+  body('gender').isLength({ min: 1 }).trim().withMessage('Gender must be specified. '),
 
   // Sanitize fields.
   sanitizeBody('firstName').trim(),
@@ -67,10 +67,10 @@ router.post('/', [
 router.put('/:id', [
 
   // Validate fields
-  body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
-  body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.'),
-  body('email').isLength({ min: 1 }).trim().withMessage('Email must be specified.'),
-  body('gender').isLength({ min: 1 }).trim().withMessage('Gender must be specified.'),
+  body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified. '),
+  body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified. '),
+  body('email').isLength({ min: 1 }).trim().withMessage('Email must be specified. '),
+  body('gender').isLength({ min: 1 }).trim().withMessage('Gender must be specified. '),
 
   // Sanitize fields.
   sanitizeBody('firstName').trim(),

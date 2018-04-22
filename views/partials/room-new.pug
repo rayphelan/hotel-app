@@ -10,11 +10,19 @@ form#newRoomForm
           label(for='name') Room name
           input#name.form-control(type='text' name='name' placeholder='Room name' required)
         .form-group
-          label(for='type') Room type
-          input#type.form-control(type='text' name='type' placeholder='Room type' required)
+          label(for='roomtype') Room Type
+          select#roomtype.form-control(name='roomtype' required)
+            option(value='' selected)
+            each roomtype in roomtypes
+              option(value=roomtype._id) #{roomtype.type}
         .form-group
           label(for='price') Price
-          input#price.form-control(type='number' name='price' placeholder='Price' required)                
+          input#price.form-control(type='number' name='price' placeholder='Price' required)  
+        .form-group
+          label(for='pricePer') Price Per
+          select#pricePer.form-control(name='pricePer' placeholder='Type')
+            option(value='Per-person') Per-person
+            option(value='Per-room') Per-room              
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel
@@ -29,8 +37,9 @@ script.
       method: 'POST',
       data: {
         "name": $('#name').val(),
-        "type": $('#type').val(),
-        "price": $('#price').val()
+        "roomtype": $('#roomtype').val(),
+        "price": $('#price').val(),
+        "pricePer": $('#pricePer').val()
       },      
       success: data=>{
         $('#roomModal').modal('toggle');

@@ -23,12 +23,12 @@ router.post('/', [
   // Validate fields
   body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified.'),
   body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),
-  body('type').isLength({ min: 1 }).trim().withMessage('Type must be specified.'),  
+  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified.'),  
 
   // Sanitize fields.
   sanitizeBody('name').trim(),
-  sanitizeBody('type').trim(),
   sanitizeBody('price').trim(),
+  sanitizeBody('pricePer').trim(),
 
 ], (req, res, next) => {
   const errors = validationResult(req);
@@ -39,7 +39,7 @@ router.post('/', [
   service = new Service({
     name: req.body.name,
     price: req.body.price,
-    type: req.body.type
+    pricePer: req.body.pricePer
   });
 
   service.save((err,service)=> {
@@ -63,13 +63,13 @@ router.put('/:id', [
 
   // Validate fields
   body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified.'),
-  body('type').isLength({ min: 1 }).trim().withMessage('Type must be specified.'),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),  
+  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),
+  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified.'),  
 
   // Sanitize fields.
   sanitizeBody('name').trim(),
   sanitizeBody('price').trim(),
-  sanitizeBody('type').trim(),
+  sanitizeBody('pricePer').trim(),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -86,7 +86,7 @@ router.put('/:id', [
             _id: req.params.id,
             name: req.body.name,
             price: req.body.price,
-            type: req.body.type
+            pricePer: req.body.pricePer
           });
           Service.findByIdAndUpdate(req.params.id, service, {}, function (err, service) {
               if (err) {

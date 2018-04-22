@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Room = require('../models/room');
+var Roomtype = require('../models/roomtype');
 var Customer = require('../models/customer');
 var Service = require('../models/service');
 var Roomtype = require('../models/roomtype');
@@ -48,8 +49,13 @@ router.get('/rooms', (req, res, next) => {
     res.render('rooms',{ layout:false });
 });
 // Add Room Partial Page
-router.get('/rooms/new', (req, res, next)=> {
-    res.render('partials/room-new', { layout:false });
+router.get('/rooms/new', (req, res, next)=>{
+    Roomtype.find({}, (err,roomtypes)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/room-new', { layout:false, roomtypes:roomtypes });
+    });
 });
 // Edit Room Partial Page
 router.get('/rooms/edit/:id', (req, res, next)=> {    
@@ -57,7 +63,12 @@ router.get('/rooms/edit/:id', (req, res, next)=> {
         if(err) {
             res.status(500).json({errmsg:err});
         }
-        res.render('partials/room-edit',{ layout:false, room:room });
+        Roomtype.find({}, (err,roomtypes)=>{
+            if(err) {
+                res.status(500).json({errmsg:err});
+            }
+            res.render('partials/room-edit',{ layout:false, room:room, roomtypes:roomtypes });
+        });        
     })   
 });
 

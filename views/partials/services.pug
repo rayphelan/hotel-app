@@ -4,14 +4,14 @@ div
       tr.table-danger
         th(scope='col') Name
         th(scope='col') Price
-        th(scope='col') Type        
+        th(scope='col') Price Per        
         th.text-right(scope='col') Operations               
     tbody
       each service in services
         tr(id='row'+service._id)
           td #{service.name}
           td #{service.price}
-          td #{service.type}          
+          td #{service.pricePer}          
           td.text-right
             a.btn.btn-warning(onclick='editServiceFunction("'+service._id+'")' type='button' data-toggle='modal' data-target='#serviceModal')
               i.fa.fa-pencil.fa-fw

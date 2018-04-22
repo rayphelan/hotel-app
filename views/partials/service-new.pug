@@ -13,8 +13,8 @@ form#newServiceForm
           label(for='price') Price
           input#price.form-control(type='number' name='price' placeholder='Price' required)
         .form-group
-          label(for='type') Type
-          select#type.form-control(name='type' placeholder='Type')
+          label(for='type') Price Per
+          select#pricePer.form-control(name='pricePer' placeholder='Type')
             option(value='Per-person') Per-person
             option(value='Per-room') Per-room
     .modal-footer
@@ -32,7 +32,7 @@ script.
       data: {
         "name": $('#name').val(),
         "price": $('#price').val(),
-        "type": $('#type').val()
+        "pricePer": $('#pricePer').val()
       },      
       success: data=>{
         $('#serviceModal').modal('toggle');

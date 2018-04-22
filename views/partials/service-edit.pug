@@ -13,10 +13,10 @@ form#editServiceForm
           label(for='price') Price
           input#price.form-control(type='number' name='price' placeholder='Price' required value=service.price)
         .form-group
-          label(for='type') Type
-          select#type.form-control(name='type' placeholder='Type')
-            option(value='Per-person' selected=(service.type=='Per-person')) Per-person
-            option(value='Per-room' selected=(service.type=='Per-room')) Per-room                
+          label(for='pricePer') Price Per
+          select#pricePer.form-control(name='pricePer' placeholder='Type')
+            option(value='Per-person' selected=(service.pricePer=='Per-person')) Per-person
+            option(value='Per-room' selected=(service.pricePer=='Per-room')) Per-room                
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel
@@ -32,7 +32,7 @@ script.
       data: {
         "name": $('#name').val(),
         "price": $('#price').val(),
-        "type": $('#type').val()
+        "pricePer": $('#pricePer').val()
       },
       success: data=>{
         $('#serviceModal').modal('toggle');

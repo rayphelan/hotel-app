@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Roomtype = require('../models/roomtype');
+var mongoose = require('mongoose');
 
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -39,6 +40,7 @@ router.post('/', [
   }
 
   roomtype = new Roomtype({
+    _id: new mongoose.Types.ObjectId(),
     type: req.body.type,
     max_adults: req.body.max_adults,
     max_childs: req.body.max_childs,

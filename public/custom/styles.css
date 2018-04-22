@@ -327,6 +327,10 @@ td a[type='button'] {
   }  
 }
 
+.has-error {
+  color: #ec2116;
+}
+
 /* Login ------------------------------------------------------- */
 .login-panel {
   margin-top: 25%;

@@ -21,9 +21,9 @@ router.get('/', (req, res, next)=>{
 router.post('/', [
 
   // Validate fields
-  body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified.'),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),
-  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified.'),  
+  body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified. '),
+  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified. '),
+  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified. '),  
 
   // Sanitize fields.
   sanitizeBody('name').trim(),
@@ -62,9 +62,9 @@ router.post('/', [
 router.put('/:id', [
 
   // Validate fields
-  body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified.'),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified.'),
-  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified.'),  
+  body('name').isLength({ min: 1 }).trim().withMessage('Name must be specified. '),
+  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified. '),
+  body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified. '),  
 
   // Sanitize fields.
   sanitizeBody('name').trim(),

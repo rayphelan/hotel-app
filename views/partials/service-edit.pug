@@ -8,10 +8,10 @@ form#editServiceForm
     .modal-body              
         .form-group
           label(for='name') Name
-          input#name.form-control(type='text' name='name' placeholder='Name' required value=service.name)
+          input#name.form-control(type='text' name='name' placeholder='Name' value=service.name)
         .form-group
           label(for='price') Price
-          input#price.form-control(type='number' name='price' placeholder='Price' required value=service.price)
+          input#price.form-control(type='number' name='price' placeholder='Price' value=service.price)
         .form-group
           label(for='pricePer') Price Per
           select#pricePer.form-control(name='pricePer' placeholder='Type')
@@ -38,8 +38,13 @@ script.
         $('#serviceModal').modal('toggle');
         $('#serviceList').html(data);
       },
-      error: ()=>{
-        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      error: (err)=>{
+        var error_messages = [];
+        $.each(err.responseJSON.errors, (field, error)=>{
+          $('#'+field).parent().addClass('has-error');
+          error_messages.push(error.msg);
+        });        
+        $('#errorMessage').html('<p class="text-danger">'+error_messages.join(' ')+'</p>');
       }
     });
   });

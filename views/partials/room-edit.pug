@@ -1,0 +1,43 @@
+
+form#editRoomForm
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal' aria-label='Close')
+        span(aria-hidden='true') &times;
+      h4.modal-title Edit Room
+    .modal-body              
+        .form-group
+          label(for='name') Room name
+          input#name.form-control(type='text' name='name' placeholder='Room name' required value=room.name)
+        .form-group
+          label(for='type') Room type
+          input#type.form-control(type='text' name='type' placeholder='Room type' required value=room.type)
+        .form-group
+          label(for='price') Price
+          input#price.form-control(type='number' name='price' placeholder='Price' required value=room.price)                
+    .modal-footer
+      .div#errorMessage
+      button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+      button#saveBtn.btn.btn-primary(type='submit') Update
+
+script.
+  $('#editRoomForm').submit((e)=>{
+    e.preventDefault();
+    // Send Post request with room
+    $.ajax({
+      url: "/api/rooms/#{room._id}",
+      method: 'PUT',      
+      data: {
+        "name": $('#name').val(),
+        "type": $('#type').val(),
+        "price": $('#price').val()
+      },
+      success: data=>{
+        $('#roomModal').modal('toggle');
+        $('#roomList').html(data);
+      },
+      error: ()=>{
+        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      }
+    });
+  });

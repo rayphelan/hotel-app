@@ -1,0 +1,116 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  meta(name='description' content='Hotel Management RIA')
+  meta(name='author' content='Raymond Phelan')
+  title= title
+  // jQuery
+  script(src='vendor/jquery/jquery.min.js')
+  // Bootstrap Core CSS
+  link(href='vendor/bootstrap/css/bootstrap.min.css' rel='stylesheet')
+  // MetisMenu CSS
+  link(href='vendor/metisMenu/metisMenu.min.css' rel='stylesheet')
+  // Custom CSS
+  link(href='dist/css/sb-admin-2.css' rel='stylesheet')
+  // Custom Fonts
+  link(href='vendor/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css')
+
+  //if lt IE 9
+    script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+    script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+body
+  #wrapper
+    nav.navbar.navbar-default.navbar-static-top(role='navigation' style='margin-bottom: 0px')
+      .navbar-header
+        button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        .app-title(href='/')= title    
+      .navbar-default.sidebar(role='navigation')
+        .sidebar-nav.navbar-collapse
+          ul#side-menu.nav
+            
+            li
+              a#dashboard-btn.sidebar-btns(href='#' onclick="getDashboardFunction()")
+                i.fa.fa-dashboard.fa-fw
+                |  Dashboard
+            li
+              a#rooms-btn.sidebar-btns(href='#' onclick="getRoomsFunction()")
+                i.fa.fa-tag.fa-fw
+                |  Rooms
+            li
+              a#customers-btn.sidebar-btns(href='/customers')
+                i.fa.fa-users.fa-fw
+                |  Customers
+            li
+              a#bookings-btn.sidebar-btns(href='/bookings')
+                i.fa.fa-suitcase.fa-fw
+                |  Bookings
+            li
+              a#services-btn.sidebar-btns(href='/services')
+                i.fa.fa-bell-o.fa-fw
+                |  Servicese
+    block content
+
+script.
+
+  // Auto Load dashboard
+  $(function() {
+    getDashboardFunction();
+  })
+
+
+  // Get Dashboard
+  const getDashboardFunction = () => {
+    $('#page-wrapper').fadeOut(400, function() {
+      $.get('/dashboard', html=>{
+        $('#page-wrapper').html(html).fadeIn(300);
+        $('.sidebar-btns').blur();
+        $('#dashboard-btn').focus();
+      })
+    });
+  }
+
+  // Get rooms Page
+  const getRoomsFunction = ()=>{
+    $('#page-wrapper').fadeOut(400, function() {
+      $.get('/rooms', html => {          
+        $('#page-wrapper').html(html).fadeIn(300);      
+        $('.sidebar-btns').blur();
+        $('#rooms-btn').focus();
+      })
+    })    
+  }
+
+  // Edit Room Function
+  const editRoomFunction = room_id => {
+    $.get('/rooms/edit/' + room_id, html => {        
+      $('#modalContent').html(html);
+    });
+  }
+
+  // Delete Room Function
+  const deleteRoomFunction = room_id => {
+    $.ajax({
+      url: "/api/rooms/" + room_id,
+      method: 'DELETE',      
+      success: data=>{
+        //$('#roomList').html(data);
+        $('#row'+data).fadeOut(1000);
+      },
+      error: ()=>{
+        console.log('Can not delete room');
+      }
+    });      
+  }
+
+// Bootstrap Core JavaScript
+script(src='vendor/bootstrap/js/bootstrap.min.js')
+// Metis Menu Plugin JavaScript
+script(src='vendor/metisMenu/metisMenu.min.js')
+// Custom Theme JavaScript
+script(src='dist/js/sb-admin-2.js')

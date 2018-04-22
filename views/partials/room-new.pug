@@ -1,0 +1,43 @@
+
+form#newRoomForm
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal' aria-label='Close')
+        span(aria-hidden='true') &times;
+      h4#myModalLabel.modal-title Add Room
+    .modal-body              
+        .form-group
+          label(for='name') Room name
+          input#name.form-control(type='text' name='name' placeholder='Room name' required)
+        .form-group
+          label(for='type') Room type
+          input#type.form-control(type='text' name='type' placeholder='Room type' required)
+        .form-group
+          label(for='price') Price
+          input#price.form-control(type='number' name='price' placeholder='Price' required)                
+    .modal-footer
+      .div#errorMessage
+      button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+      button#saveBtn.btn.btn-primary(type='submit') Save
+
+script.
+  $('#newRoomForm').submit((e)=>{
+    e.preventDefault();
+    // Send Post request with new room
+    $.ajax({
+      url: "/api/rooms",
+      method: 'POST',
+      data: {
+        "name": $('#name').val(),
+        "type": $('#type').val(),
+        "price": $('#price').val()
+      },      
+      success: data=>{
+        $('#roomModal').modal('toggle');
+        $('#roomList').html(data);
+      },
+      error: ()=>{
+        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      }
+    });
+  });

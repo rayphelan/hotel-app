@@ -90,7 +90,7 @@ const getRoomtypesFunction = ()=>{
   });
 }
 
-// Edit and Delete Functions -------------------------------------------
+// Rooms --------------------------------------------------------------
 // Edit Room Function
 const editRoomFunction = room_id => {
   $.get('/rooms/edit/' + room_id, html => {        
@@ -99,11 +99,17 @@ const editRoomFunction = room_id => {
 }
 // Delete Room Function
 const deleteRoomFunction = room_id => {
+  $.get('/rooms/delete/' + room_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete Room Request
+const deleteRoomRequest = room_id => {
   $.ajax({
     url: "/api/rooms/" + room_id,
     method: 'DELETE',      
     success: data=>{
-      //$('#roomList').html(data);
+      $('#roomModal').modal('toggle');
       $('#row'+data).fadeOut(1000);
     },
     error: ()=>{
@@ -112,6 +118,7 @@ const deleteRoomFunction = room_id => {
   });      
 }
 
+// Customers --------------------------------------------------------------
 // Edit Customer Function
 const editCustomerFunction = customer_id => {
   $.get('/customers/edit/' + customer_id, html => {        
@@ -120,10 +127,17 @@ const editCustomerFunction = customer_id => {
 }
 // Delete Customer Function
 const deleteCustomerFunction = customer_id => {
+  $.get('/customers/delete/' + customer_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete Customer Request
+const deleteCustomerRequest = customer_id => {
   $.ajax({
     url: "/api/customers/" + customer_id,
     method: 'DELETE',      
-    success: data=>{        
+    success: data=>{    
+      $('#customerModal').modal('toggle');    
       $('#row'+data).fadeOut(1000);
     },
     error: ()=>{
@@ -132,6 +146,7 @@ const deleteCustomerFunction = customer_id => {
   });      
 }
 
+// Bookings --------------------------------------------------------------
 // Edit Booking Function
 const editBookingFunction = booking_id => {
   $.get('/bookings/edit/' + booking_id, html => {        
@@ -152,6 +167,7 @@ const deleteBookingFunction = booking_id => {
   });      
 }
 
+// Services --------------------------------------------------------------
 // Edit Service Function
 const editServiceFunction = service_id => {
   $.get('/services/edit/' + service_id, html => {        
@@ -159,11 +175,18 @@ const editServiceFunction = service_id => {
   });
 }
 // Delete Service Function
-const deleteServiceFunction = service_id => {
+const deleteServiceFunction = service_id => {  
+  $.get('/services/delete/' + service_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete Service Request
+const deleteServiceRequest = service_id => {
   $.ajax({
     url: "/api/services/" + service_id,
     method: 'DELETE',      
-    success: data=>{        
+    success: data=>{     
+      $('#serviceModal').modal('toggle');   
       $('#row'+data).fadeOut(1000);
     },
     error: ()=>{
@@ -172,6 +195,7 @@ const deleteServiceFunction = service_id => {
   });      
 }
 
+// RoomTypes --------------------------------------------------------------
 // Edit RoomType Function
 const editRoomtypeFunction = roomtype_id => {
   $.get('/roomtypes/edit/' + roomtype_id, html => {        
@@ -179,11 +203,18 @@ const editRoomtypeFunction = roomtype_id => {
   });
 }
 // Delete RoomType Function
-const deleteRoomtypeFunction = roomtype_id => {
+const deleteRoomtypeFunction = roomtype_id => {  
+  $.get('/roomtypes/delete/' + roomtype_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete RoomType Request
+const deleteRoomtypeRequest = roomtype_id => {
   $.ajax({
     url: "/api/roomtypes/" + roomtype_id,
     method: 'DELETE',      
     success: data=>{        
+      $('#roomtypeModal').modal('toggle');
       $('#row'+data).fadeOut(1000);
     },
     error: ()=>{

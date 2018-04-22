@@ -34,6 +34,10 @@ router.get('/customers/edit/:id', (req, res, next)=> {
         res.render('partials/customer-edit',{ layout:false, customer:customer });
     })   
 });
+// Delete Customer Partial Page
+router.get('/customers/delete/:id', (req, res, next)=> {
+    res.render('partials/customer-delete', { layout:false, id:req.params.id });
+});
 
 
 // Bookings ---------------------------------------------------------
@@ -71,13 +75,16 @@ router.get('/rooms/edit/:id', (req, res, next)=> {
         });        
     })   
 });
+// Delete Room Partial Page
+router.get('/rooms/delete/:id', (req, res, next)=> {
+    res.render('partials/room-delete', { layout:false, id:req.params.id });
+});
 
 // Services ----------------------------------------------------------
 // Services page
 router.get('/services', (req, res, next) => {
     res.render('services',{ layout:false });
 });
-
 // Add Services Partial Page
 router.get('/services/new', (req, res, next)=> {
     res.render('partials/service-new', { layout:false });
@@ -91,6 +98,10 @@ router.get('/services/edit/:id', (req, res, next)=> {
         res.render('partials/service-edit',{ layout:false, service:service });
     })   
 });
+// Delete Service Partial page
+router.get('/services/delete/:id', (req, res, next)=>{
+    res.render('partials/service-delete', { layout:false, id:req.params.id });
+})
 
 
 // Room Types ----------------------------------------------------------
@@ -98,7 +109,6 @@ router.get('/services/edit/:id', (req, res, next)=> {
 router.get('/roomtypes', (req, res, next) => {
     res.render('roomtypes',{ layout:false });
 });
-
 // Add RoomType Partial Page
 router.get('/roomtypes/new', (req, res, next)=> {
     res.render('partials/roomtype-new', { layout:false });
@@ -112,6 +122,10 @@ router.get('/roomtypes/edit/:id', (req, res, next)=> {
         res.render('partials/roomtype-edit',{ layout:false, roomtype:roomtype });
     })   
 });
+// Delete RoomType Partial page
+router.get('/roomtypes/delete/:id', (req, res, next)=>{
+    res.render('partials/roomtype-delete', { layout:false, id:req.params.id });
+})
 
 
 // Export Router ----------------------------------------------------

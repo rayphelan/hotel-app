@@ -33,11 +33,11 @@ app.set('view engine', 'pug');
 //	Routes
 var indexRouter = require('./routes/index');
 //var bookingsRouter = require('./routes/bookings');
-//var customersRouter = require('./routes/customers');
+var customersRouter = require('./routes/customers');
 var roomsRouter = require('./routes/rooms');
 app.use('/', indexRouter);
 //app.use('/api/bookings', bookingsRouter);
-//app.use('/api/customers', customersRouter);
+app.use('/api/customers', customersRouter);
 app.use('/api/rooms', roomsRouter);
 
 // Start server

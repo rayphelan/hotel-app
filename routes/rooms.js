@@ -112,13 +112,7 @@ router.delete('/:id', (req, res, next)=>{
     if(err) {
       return res.status(401).json({ "error":err });
     }
-    Room.find({}, (err, rooms)=>{
-      if (err) {
-        return res.status(500).json({"errors":err });
-      }      
-      //res.render('partials/rooms',{layout:false, rooms:rooms });
-      res.send(req.params.id);
-    })
+    res.send(req.params.id);
   });
 });
 

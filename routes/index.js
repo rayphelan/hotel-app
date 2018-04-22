@@ -1,22 +1,43 @@
 var express = require('express');
 var router = express.Router();
 var Room = require('../models/room');
+var Customer = require('../models/customer');
+
 
 // Index page
 router.get('/',(req, res, next)=>{
     res.render('index', { title: 'Hotel Manager' });
 });
 
+
 // Dashboard
 router.get('/dashboard',(req,res,next)=>{
     res.render('dashboard',{ layout:false });
 })
 
+// Customers ---------------------------------------------------------
 // Customers page
 router.get('/customers',(req, res, next)=>{
-    res.render('customers', { title: 'Hotel Management: Customers' });
+    res.render('customers', { layout: false });
 });
 
+// Add Customer Partial Page
+router.get('/customers/new', (req, res, next)=> {
+    res.render('partials/customer-new', { layout:false });
+});
+
+// Edit Customer Partial Page
+router.get('/customers/edit/:id', (req, res, next)=> {    
+    Customer.findById(req.params.id, (err, customer)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/customer-edit',{ layout:false, customer:customer });
+    })   
+});
+
+
+// Bookings ---------------------------------------------------------
 // Bookings page
 router.get('/bookings',(req, res, next)=>{
     res.render('bookings', { title: 'Hotel Management: Bookings' });

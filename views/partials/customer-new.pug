@@ -1,0 +1,53 @@
+
+form#newCustomerForm
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal' aria-label='Close')
+        span(aria-hidden='true') &times;
+      h4.modal-title Add Customer
+    .modal-body              
+        .form-group
+          label(for='firstName') First name
+          input#firstName.form-control(type='text' name='firstName' placeholder='First name' required)
+        .form-group
+          label(for='lastName') Last name
+          input#lastName.form-control(type='text' name='lastName' placeholder='Last name' required)
+        .form-group
+          label(for='email') Email
+          input#email.form-control(type='email' name='email' placeholder='Email' required)
+        .form-group
+          label(for='phone') Phone
+          input#phone.form-control(type='text' name='phone' placeholder='Phone')
+        .form-group
+          label(for='gender') Gender
+          select#gender.form-control(name='gender' placeholder='Gender')
+            option(value='Male') Male
+            option(value='Female') Female
+    .modal-footer
+      .div#errorMessage
+      button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+      button#saveBtn.btn.btn-primary(type='submit') Save
+
+script.
+  $('#newCustomerForm').submit((e)=>{
+    e.preventDefault();
+    // Send Post request with new customer
+    $.ajax({
+      url: "/api/customers",
+      method: 'POST',
+      data: {
+        "firstName": $('#firstName').val(),
+        "lastName": $('#lastName').val(),
+        "email": $('#email').val(),
+        "phone": $('#phone').val(),
+        "gender": $('#gender').val()
+      },      
+      success: data=>{
+        $('#customerModal').modal('toggle');
+        $('#customerList').html(data);
+      },
+      error: ()=>{
+        $('#errorMessage').html('<p class="text-danger">Unable to save. Please make sure all fields are filled in correctly.</p>');
+      }
+    });
+  });

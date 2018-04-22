@@ -3,7 +3,7 @@
     .col-lg-12
       h1.page-header Dashboard      
   .row
-    .col-lg-3.col-md-6
+    .col-lg-6.col-md-6
       .panel.panel-primary
         .panel-heading
           .row
@@ -11,13 +11,13 @@
               i.fa.fa-tag.fa-5x
             .col-xs-9.text-right
               .huge Rooms                
-        a(href='#' onclick="getRoomsFunction()")
+        a(href='#rooms' onclick="getRoomsFunction()")
           .panel-footer
             span.pull-left View Details
             span.pull-right
               i.fa.fa-arrow-circle-right
             .clearfix
-    .col-lg-3.col-md-6
+    .col-lg-6.col-md-6
       .panel.panel-green
         .panel-heading
           .row
@@ -25,13 +25,13 @@
               i.fa.fa-users.fa-5x
             .col-xs-9.text-right
               .huge Customers                
-        a(href='/customers')
+        a(href='#customers' onclick="getCustomersFunction()")
           .panel-footer
             span.pull-left View Details
             span.pull-right
               i.fa.fa-arrow-circle-right
             .clearfix
-    .col-lg-3.col-md-6
+    .col-lg-6.col-md-6
       .panel.panel-yellow
         .panel-heading
           .row
@@ -39,13 +39,13 @@
               i.fa.fa-suitcase.fa-5x
             .col-xs-9.text-right
               .huge Bookings                
-        a(href='/bookings')
+        a(href='#bookings' onclick="getBookingsFunction()")
           .panel-footer
             span.pull-left View Details
             span.pull-right
               i.fa.fa-arrow-circle-right
             .clearfix
-    .col-lg-3.col-md-6
+    .col-lg-6.col-md-6
       .panel.panel-red
         .panel-heading
           .row
@@ -53,7 +53,7 @@
               i.fa.fa-bell-o.fa-5x
             .col-xs-9.text-right
               .huge Services                
-        a(href='/services')
+        a(href='#services' onclick="getServicesFunction()")
           .panel-footer
             span.pull-left View Details
             span.pull-right

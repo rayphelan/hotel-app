@@ -23,12 +23,15 @@ $(function() {
   };   
 })
 
+const FADEOUT = 400;
+const FADEIN = 400;
+
 // Load Page functions ----------------------------
 // Get Dashboard Function
 const getDashboardFunction = () => {
-  $('#page-wrapper').fadeOut(400, function() {
+  $('#page-wrapper').fadeOut(FADEOUT, function() {
     $.get('/dashboard', html=>{
-      $('#page-wrapper').html(html).fadeIn(300);
+      $('#page-wrapper').html(html).fadeIn(FADEIN);
       $('.sidebar-btns').blur();
       $('#dashboard-btn').focus();
     })
@@ -37,9 +40,9 @@ const getDashboardFunction = () => {
 
 // Get Rooms Function
 const getRoomsFunction = ()=>{
-  $('#page-wrapper').fadeOut(400, function() {
+  $('#page-wrapper').fadeOut(FADEOUT, function() {
     $.get('/rooms', html => {          
-      $('#page-wrapper').html(html).fadeIn(300);      
+      $('#page-wrapper').html(html).fadeIn(FADEIN);      
       $('.sidebar-btns').blur();
       $('#rooms-btn').focus();
     })
@@ -48,9 +51,9 @@ const getRoomsFunction = ()=>{
 
 // Get Customers Function
 const getCustomersFunction = ()=>{
-  $('#page-wrapper').fadeOut(400, function() {
+  $('#page-wrapper').fadeOut(FADEOUT, function() {
     $.get('/customers', html=>{
-      $('#page-wrapper').html(html).fadeIn(300);
+      $('#page-wrapper').html(html).fadeIn(FADEIN);
       $('.sidebar-btns').blur();
       $('#customers-btn').focus();
     })
@@ -59,9 +62,9 @@ const getCustomersFunction = ()=>{
 
 // Get Bookings Function
 const getBookingsFunction = ()=>{
-  $('#page-wrapper').fadeOut(400, function() {
+  $('#page-wrapper').fadeOut(FADEOUT, function() {
     $.get('/bookings', html=>{
-      $('#page-wrapper').html(html).fadeIn(300);
+      $('#page-wrapper').html(html).fadeIn(FADEIN);
       $('.sidebar-btns').blur();
       $('#bookings-btn').focus();
     })
@@ -70,9 +73,9 @@ const getBookingsFunction = ()=>{
 
 // Get Services Function
 const getServicesFunction = ()=>{
-  $('#page-wrapper').fadeOut(400, function() {
+  $('#page-wrapper').fadeOut(FADEOUT, function() {
     $.get('/services', html=>{
-      $('#page-wrapper').html(html).fadeIn(300);
+      $('#page-wrapper').html(html).fadeIn(FADEIN);
       $('.sidebar-btns').blur();
       $('#services-btn').focus();
     })
@@ -81,9 +84,9 @@ const getServicesFunction = ()=>{
 
 // Get Roomtypes Function
 const getRoomtypesFunction = ()=>{
-  $('#page-wrapper').fadeOut(400, function() {
+  $('#page-wrapper').fadeOut(FADEOUT, function() {
     $.get('/roomtypes', html=>{
-      $('#page-wrapper').html(html).fadeIn(300);
+      $('#page-wrapper').html(html).fadeIn(FADEIN);
       $('.sidebar-btns').blur();
       $('#roomtypes-btn').focus();
     })

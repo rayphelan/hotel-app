@@ -11,8 +11,8 @@ body, html {
 body {
   font-family: "PT Sans Narrow",sans-serif;
   font-size: 17px;
-  background: linear-gradient(275deg,#071e4e, #511a7e, #7417d1, #082c7a);
-  background-size: 600% 600%;
+  background: linear-gradient(275deg,#1e0659, #4c015e, #1f0056, #38004f);
+  background-size: 700% 700%;
   -webkit-animation: HotelManagementBG 15s ease infinite;
   -moz-animation: HotelManagementBG 15s ease infinite;
   animation: HotelManagementBG 15s ease infinite;
@@ -20,26 +20,26 @@ body {
 
 /* Animation for Background --------------------------------------- */
 @-webkit-keyframes HotelManagementBG {
-  0%{background-position:0% 43%}
-  50%{background-position:100% 58%}
-  100%{background-position:0% 43%}
+  0%{background-position:0% 40%}
+  50%{background-position:100% 60%}
+  100%{background-position:0% 40%}
 }
 @-moz-keyframes HotelManagementBG {
-  0%{background-position:0% 43%}
-  50%{background-position:100% 58%}
-  100%{background-position:0% 43%}
+  0%{background-position:0% 40%}
+  50%{background-position:100% 60%}
+  100%{background-position:0% 40%}
 }
 @keyframes HotelManagementBG { 
-  0%{background-position:0% 43%}
-  50%{background-position:100% 58%}
-  100%{background-position:0% 43%}
+  0%{background-position:0% 40%}
+  50%{background-position:100% 60%}
+  100%{background-position:0% 40%}
 }
 
 /* Title of Application -------------------------------------------- */
 .app-title {
   padding:30px;
   font-size: 36px;
-  color: rgba(255,255,255,.9);
+  color: rgba(255,255,255,1);
   text-shadow: #082c7a 2px 2px;
   text-transform: uppercase;
   font-weight: 300;
@@ -48,7 +48,7 @@ body {
 /* Header for each page section ------------------------------------ */
 h1.page-header {
   font-size: 30px;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255,255,255,1);
   border: 0;
   text-shadow: #082c7a 2px 2px;
 }

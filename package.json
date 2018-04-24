@@ -21,10 +21,12 @@
   },
   "homepage": "https://github.com/rayphelan/rptest#readme",
   "dependencies": {
+    "async": "^2.6.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
     "express": "^4.16.3",
     "express-validator": "^5.1.2",
+    "moment": "^2.22.1",
     "mongoose": "^5.0.15",
     "pug": "^2.0.3"
   }

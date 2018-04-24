@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Service = require('../models/service');
+var mongoose = require('mongoose');
 
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -37,6 +38,7 @@ router.post('/', [
   }
 
   service = new Service({
+    _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
     pricePer: req.body.pricePer

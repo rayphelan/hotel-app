@@ -1,0 +1,35 @@
+div
+  table.table.table-hover
+    thead
+      tr.table-danger        
+        th(scope='col') Customer
+        th(scope='col') Booking Date
+        th(scope='col') Check-in
+        th(scope='col') Check-out 
+        th(scope='col') Room
+        th(scope='col') Adults
+        th(scope='col') Childs
+        th(scope='col') Infants
+        th(scope='col') Services
+        th(scope='col') Price
+        th.text-right(scope='col') Operations               
+    tbody
+      each booking in bookings
+        tr(id='row'+booking._id)
+          td #{booking.customer.name}
+          td #{booking.booking_date.toDateString()}
+          td #{booking.checkin.toDateString()}
+          td #{booking.checkout.toDateString()}
+          td #{booking.room.name}
+          td #{booking.adults}
+          td #{booking.childs}
+          td #{booking.infants}
+          td #{booking.service.name}
+          td #{booking.price}
+          td.text-right
+            a.btn.btn-warning(onclick='editBookingFunction("'+booking._id+'")' type='button' data-toggle='modal' data-target='#bookingModal')
+              i.fa.fa-pencil.fa-fw
+              |  Edit
+            a.btn.btn-danger(onclick='deleteBookingFunction("'+booking._id+'")' type='button' data-toggle='modal' data-target='#bookingModal')
+              i.fa.fa-times.fa-fw
+              |  Delete       

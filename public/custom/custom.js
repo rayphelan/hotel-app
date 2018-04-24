@@ -26,73 +26,48 @@ $(function() {
 const FADEOUT = 400;
 const FADEIN = 400;
 
-// Load Page functions ----------------------------
-// Get Dashboard Function
-const getDashboardFunction = () => {
+// Load Page function  ----------------------------
+const loadPage = (url,button) => {
   $('#page-wrapper').fadeOut(FADEOUT, function() {
-    $.get('/dashboard', html=>{
+    $.get(url, html=>{
       $('#page-wrapper').html(html).fadeIn(FADEIN);
       $('.sidebar-btns').blur();
-      $('#dashboard-btn').focus();
+      $(button).focus();
     })
   });
+}
+
+// Get Dashboard Function
+const getDashboardFunction = () => {
+  loadPage('/dashboard', '#dashboard-btn');
 }
 
 // Get Rooms Function
 const getRoomsFunction = ()=>{
-  $('#page-wrapper').fadeOut(FADEOUT, function() {
-    $.get('/rooms', html => {          
-      $('#page-wrapper').html(html).fadeIn(FADEIN);      
-      $('.sidebar-btns').blur();
-      $('#rooms-btn').focus();
-    })
-  });    
+  loadPage('/rooms', '#rooms-btn');    
 }
 
 // Get Customers Function
 const getCustomersFunction = ()=>{
-  $('#page-wrapper').fadeOut(FADEOUT, function() {
-    $.get('/customers', html=>{
-      $('#page-wrapper').html(html).fadeIn(FADEIN);
-      $('.sidebar-btns').blur();
-      $('#customers-btn').focus();
-    })
-  });
+  loadPage('/customers', '#customers-btn');
 }
 
 // Get Bookings Function
 const getBookingsFunction = ()=>{
-  $('#page-wrapper').fadeOut(FADEOUT, function() {
-    $.get('/bookings', html=>{
-      $('#page-wrapper').html(html).fadeIn(FADEIN);
-      $('.sidebar-btns').blur();
-      $('#bookings-btn').focus();
-    })
-  });
+  loadPage('/bookings', '#bookings-btn');
 }
 
 // Get Services Function
 const getServicesFunction = ()=>{
-  $('#page-wrapper').fadeOut(FADEOUT, function() {
-    $.get('/services', html=>{
-      $('#page-wrapper').html(html).fadeIn(FADEIN);
-      $('.sidebar-btns').blur();
-      $('#services-btn').focus();
-    })
-  });
+  loadPage('/services', '#services-btn');
 }
 
 // Get Roomtypes Function
 const getRoomtypesFunction = ()=>{
-  $('#page-wrapper').fadeOut(FADEOUT, function() {
-    $.get('/roomtypes', html=>{
-      $('#page-wrapper').html(html).fadeIn(FADEIN);
-      $('.sidebar-btns').blur();
-      $('#roomtypes-btn').focus();
-    })
-  });
+  loadPage('/roomtypes', '#roomtypes-btn');
 }
 
+// Edit and Delete functions
 // Rooms --------------------------------------------------------------
 // Edit Room Function
 const editRoomFunction = room_id => {
@@ -149,27 +124,6 @@ const deleteCustomerRequest = customer_id => {
   });      
 }
 
-// Bookings --------------------------------------------------------------
-// Edit Booking Function
-const editBookingFunction = booking_id => {
-  $.get('/bookings/edit/' + booking_id, html => {        
-    $('#modalContent').html(html);
-  });
-}
-// Delete Booking Function
-const deleteBookingFunction = booking_id => {
-  $.ajax({
-    url: "/api/bookings/" + booking_id,
-    method: 'DELETE',      
-    success: data=>{        
-      $('#row'+data).fadeOut(1000);
-    },
-    error: ()=>{
-      console.log('Can not delete booking');
-    }
-  });      
-}
-
 // Services --------------------------------------------------------------
 // Edit Service Function
 const editServiceFunction = service_id => {
@@ -222,6 +176,34 @@ const deleteRoomtypeRequest = roomtype_id => {
     },
     error: ()=>{
       console.log('Can not delete room type');
+    }
+  });      
+}
+
+// Bookings -----------------------------------------------------------------
+// Edit Booking Function
+const editBookingFunction = booking_id => {
+  $.get('/bookings/edit/' + booking_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete Booking Function
+const deleteBookingFunction = booking_id => {  
+  $.get('/bookings/delete/' + booking_id, html => {        
+    $('#modalContent').html(html);
+  });
+}
+// Delete Booking Request
+const deleteBookingRequest = booking_id => {
+  $.ajax({
+    url: "/api/bookings/" + booking_id,
+    method: 'DELETE',      
+    success: data=>{        
+      $('#bookingModal').modal('toggle');
+      $('#row'+data).fadeOut(1000);
+    },
+    error: ()=>{
+      console.log('Can not delete booking');
     }
   });      
 }

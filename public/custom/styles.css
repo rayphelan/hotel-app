@@ -11,14 +11,14 @@ body, html {
 body {
   font-family: "PT Sans Narrow",sans-serif;
   font-size: 17px;
-  background: linear-gradient(275deg,#1e0659, #4c015e, #1f0056, #38004f);
+  background:  linear-gradient(275deg,#1e0659, #4c015e, #1f0056, #38004f);
   background-size: 700% 700%;
   -webkit-animation: HotelManagementBG 15s ease infinite;
   -moz-animation: HotelManagementBG 15s ease infinite;
   animation: HotelManagementBG 15s ease infinite;
 }
 
-/* Animation for Background --------------------------------------- */
+/* Keyframes for Background Animation --------------------------------------- */
 @-webkit-keyframes HotelManagementBG {
   0%{background-position:0% 40%}
   50%{background-position:100% 60%}
@@ -40,7 +40,7 @@ body {
   padding:30px;
   font-size: 36px;
   color: rgba(255,255,255,1);
-  text-shadow: #082c7a 2px 2px;
+  text-shadow: #000000 3px 3px 8px;
   text-transform: uppercase;
   font-weight: 300;
 }
@@ -50,7 +50,7 @@ h1.page-header {
   font-size: 30px;
   color: rgba(255,255,255,1);
   border: 0;
-  text-shadow: #082c7a 2px 2px;
+  text-shadow: #000000 3px 3px 8px;
 }
 
 /* Large text on dashboard ----------------------------------------- */
@@ -193,7 +193,7 @@ td a[type='button'] {
 
 /* Panels -------------------------------------------------------- */
 .panel {
-  box-shadow: 6px 6px 15px rgba(29,8,90,0.9);
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7);
 }
 /* GREEN --------------------------------------------------------- */
 .panel-green {

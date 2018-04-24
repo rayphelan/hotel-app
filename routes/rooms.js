@@ -44,6 +44,8 @@ router.post('/', [
     return res.status(400).json({ errors: errors.mapped() });
   }
 
+  console.log(req.body);
+  
   room = new Room({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,

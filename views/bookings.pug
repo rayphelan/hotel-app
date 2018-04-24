@@ -1,68 +1,37 @@
-extends layout
+.container-fluid
+  .row
+    .col-lg-12
+      h1.page-header Bookings
+      .div
+        a#addBookingButton.btn.btn-primary(href='#' type='button' data-toggle='modal' data-target='#bookingModal')
+            i.fa.fa-plus.fa-fw
+            |  Add Booking        
+  .row
+    .col-lg-12
+      .card  
+        .div#bookingList
+          
+#bookingModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='Bookings')
+  .modal-dialog(role='document')
+    .div#modalContent      
+  
+script.
 
-block content
+  $(function() {
+  
+    // Get Bookings
+    $.get( "/api/bookings", data => {
+      $('#bookingList').html(data);
+    });
+  
+    // Add Booking
+    $('#addBookingButton').click(() => {
+      $.get('/bookings/new', html => {          
+        $('#modalContent').html(html);
+      })
+    });
 
-  #page-wrapper
-    .row
-      .col-lg-12
-        h1.page-header Bookings
-      // /.col-lg-12
-    // /.row
-    .row
-      .col-lg-3.col-md-6
-        .panel.panel-primary
-          .panel-heading
-            .row
-              .col-xs-3
-                i.fa.fa-tag.fa-5x
-              .col-xs-9.text-right
-                .huge Rooms                
-          a(href='/rooms')
-            .panel-footer
-              span.pull-left View Details
-              span.pull-right
-                i.fa.fa-arrow-circle-right
-              .clearfix
-      .col-lg-3.col-md-6
-        .panel.panel-green
-          .panel-heading
-            .row
-              .col-xs-3
-                i.fa.fa-users.fa-5x
-              .col-xs-9.text-right
-                .huge Customers                
-          a(href='/customers')
-            .panel-footer
-              span.pull-left View Details
-              span.pull-right
-                i.fa.fa-arrow-circle-right
-              .clearfix
-      .col-lg-3.col-md-6
-        .panel.panel-yellow
-          .panel-heading
-            .row
-              .col-xs-3
-                i.fa.fa-suitcase.fa-5x
-              .col-xs-9.text-right
-                .huge Bookings                
-          a(href='/bookings')
-            .panel-footer
-              span.pull-left View Details
-              span.pull-right
-                i.fa.fa-arrow-circle-right
-              .clearfix
-      .col-lg-3.col-md-6
-        .panel.panel-red
-          .panel-heading
-            .row
-              .col-xs-3
-                i.fa.fa-bell-o.fa-5x
-              .col-xs-9.text-right
-                .huge Services                
-          a(href='/services')
-            .panel-footer
-              span.pull-left View Details
-              span.pull-right
-                i.fa.fa-arrow-circle-right
-              .clearfix
-    // /.row
+  });
+  
+
+  

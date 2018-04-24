@@ -5,8 +5,10 @@ var Roomtype = require('../models/roomtype');
 var Customer = require('../models/customer');
 var Service = require('../models/service');
 var Roomtype = require('../models/roomtype');
+var Booking = require('../models/booking');
+var async = require('async');
 
-// Index page
+// Index page (Same as dashboard)
 router.get('/',(req, res, next)=>{
     res.render('index', { title: 'Hotel Manager' });
 });
@@ -15,6 +17,64 @@ router.get('/',(req, res, next)=>{
 router.get('/dashboard',(req,res,next)=>{
     res.render('dashboard',{ layout:false });
 })
+
+
+// Bookings ---------------------------------------------------------
+// Bookings page
+router.get('/bookings',(req, res, next)=>{
+    res.render('bookings', { layout: false });
+});
+// New Booking Page
+router.get('/bookings/new', (req, res, next)=>{
+
+    async.parallel({
+        customers: callback=>{
+            Customer.find({}).exec(callback);            
+        },
+        rooms: callback=>{
+            Room.find({}).populate('roomtype').exec(callback);
+        },
+        services: callback=>{
+            Service.find({}).exec(callback);
+        }
+    }, (err, results) => {
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/booking-new', { layout: false , customers:results.customers, rooms:results.rooms, services:results.services });
+    });
+});
+// Edit Booking Partial Page
+router.get('/bookings/edit/:id', (req, res, next)=> {   
+    
+    async.parallel({
+        booking: callback=>{
+            Booking.findById(req.params.id).exec(callback);
+        },
+        customers: callback=>{
+            Customer.find({}).exec(callback);            
+        },
+        rooms: callback=>{
+            Room.find({}).populate('roomtype').exec(callback);
+        },
+        services: callback=>{
+            Service.find({}).exec(callback);
+        }
+    }, (err, results)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/booking-edit',{ layout:false, booking:results.booking, customers:results.customers, rooms:results.rooms, services:results.services });
+    });
+
+    Booking.findById(req.params.id, (err, booking)=>{
+        
+    })   
+});
+// Delete Booking Partial Page
+router.get('/bookings/delete/:id', (req, res, next)=> {
+    res.render('partials/booking-delete', { layout:false, id:req.params.id });
+});
 
 // Customers ---------------------------------------------------------
 // Customers page
@@ -37,13 +97,6 @@ router.get('/customers/edit/:id', (req, res, next)=> {
 // Delete Customer Partial Page
 router.get('/customers/delete/:id', (req, res, next)=> {
     res.render('partials/customer-delete', { layout:false, id:req.params.id });
-});
-
-
-// Bookings ---------------------------------------------------------
-// Bookings page
-router.get('/bookings',(req, res, next)=>{
-    res.render('bookings', { title: 'Hotel Management: Bookings' });
 });
 
 

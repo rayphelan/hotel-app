@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Customer = require('../models/customer');
+var mongoose = require('mongoose');
 
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -40,6 +41,7 @@ router.post('/', [
   }
 
   customer = new Customer({
+    _id: new mongoose.Types.ObjectId(),
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,

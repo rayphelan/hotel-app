@@ -1,0 +1,11 @@
+.modal-content
+  .modal-header
+    button.close(type='button' data-dismiss='modal' aria-label='Close')
+      span(aria-hidden='true') &times;
+    h4.modal-title Delete Booking
+  .modal-body              
+    p Are you sure you want to delete this booking?            
+  .modal-footer
+    .div#errorMessage
+    button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+    button#saveBtn.btn.btn-danger(type='button' onclick="deleteBookingRequest('"+id+"')") Delete

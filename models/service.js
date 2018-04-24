@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var serviceSchema = mongoose.Schema({
+var serviceSchema = Schema({
+  _id: Schema.Types.ObjectId,
   name: String,
   price: Number,
   pricePer: String

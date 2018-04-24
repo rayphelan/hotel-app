@@ -1,0 +1,85 @@
+
+form#editBookingForm
+  .modal-content
+    .modal-header
+      button.close(type='button' data-dismiss='modal' aria-label='Close')
+        span(aria-hidden='true') &times;
+      h4.modal-title Edit Booking
+    .modal-body              
+        .form-group
+          .row
+            .col-md-4.col-sm-12
+              label(for='booking_date') Booking Date
+              input#booking_date.form-control(type='date' name='booking_date' placeholder='Booking Date' value=moment(booking.booking_date).format('YYYY-MM-DD'))
+            .col-md-4.col-sm-12
+              label(for='checkin') Check-in Date
+              input#checkin.form-control(type='date' name='checkin' placeholder='Check-in' value=moment(booking.checkin).format('YYYY-MM-DD'))
+            .col-md-4.col-sm-12
+              label(for='checkout') Check-out Date
+              input#checkout.form-control(type='date' name='checkout' placeholder='Check-out' value=moment(booking.checkout).format('YYYY-MM-DD'))          
+        .form-group
+          label(for='customer') Customer
+          select#customer.form-control(name='customer')
+            option(value='' selected)
+            each customer in customers
+              option(value=customer._id selected=(booking.customer.toString() == customer._id)) #{customer.firstName} #{customer.lastName}            
+        .form-group
+          label(for='room') Room
+          select#room.form-control(name='room')
+             option(value='' selected)
+             each room in rooms 
+              option(value=room._id selected=(booking.room.toString() == room._id)) #{room.name}            
+        .form-group
+          .row
+            .col-md-4.col-sm-12
+              label(for='adults') Adults
+              input#adults.form-control(type='number' name='adults' placeholder='Adults' value=booking.adults)
+            .col-md-4.col-sm-12
+              label(for='childs') Childs
+              input#childs.form-control(type='number' name='childs' placeholder='Childs' value=booking.childs)
+            .col-md-4.col-sm-12
+              label(for='infants') Infants
+              input#infants.form-control(type='number' name='infants' placeholder='Infants' value=booking.infants)          
+        .form-group
+          label(for='service') Service
+          select#service.form-control(name='service')
+            option(value='' selected)
+            each service in services  
+              option(value=service._id selected=(booking.service.toString() == service._id)) #{service.name}
+    .modal-footer
+      .div#errorMessage
+      button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+      button#saveBtn.btn.btn-primary(type='submit') Save
+
+script.
+  $('#editBookingForm').submit((e)=>{
+    e.preventDefault();
+    // Send Post request with new booking
+    $.ajax({
+      url: "/api/bookings/#{booking._id}",
+      method: 'PUT',
+      data: {
+        "booking_date": $('#booking_date').val(),
+        "customer": $('#customer').val(),
+        "room": $('#room').val(),
+        "checkin": $('#checkin').val(),
+        "checkout": $('#checkout').val(),
+        "adults": $('#adults').val(),
+        "childs": $('#childs').val(),
+        "infants": $('#infants').val(),
+        "service": $('#service').val()
+      },      
+      success: data=>{
+        $('#bookingModal').modal('toggle');
+        $('#bookingList').html(data);
+      },
+      error: (err)=>{
+        var error_messages = [];
+        $.each(err.responseJSON.errors, (field, error)=>{
+          $('#'+field).parent().addClass('has-error');
+          error_messages.push(error.msg);
+        });        
+        $('#errorMessage').html('<p class="text-danger">'+error_messages.join(' ')+'</p>');
+      }
+    });
+  });

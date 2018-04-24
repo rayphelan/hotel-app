@@ -4,8 +4,14 @@
       span(aria-hidden='true') &times;
     h4.modal-title Delete Room Type
   .modal-body              
-    p Are you sure you want to delete this room type?            
+    if rooms.length > 0
+      .alert.alert-danger 
+        p There #{rooms.length==1? 'is':'are'} currently <strong>#{rooms.length} Room#{rooms.length!=1? 's':''}</strong> referencing this Room Type.
+        p In order to enforce Referential Integrity, you can not delete this Room Type unless you first delete any Rooms referencing it.
+    else
+      p Are you sure you want to delete this room type?            
   .modal-footer
     .div#errorMessage
     button.btn.btn-default(type='button' data-dismiss='modal') Cancel
-    button#saveBtn.btn.btn-danger(type='button' onclick="deleteRoomtypeRequest('"+id+"')") Delete
+    if !rooms.length > 0
+      button#saveBtn.btn.btn-danger(type='button' onclick="deleteRoomtypeRequest('"+id+"')") Delete

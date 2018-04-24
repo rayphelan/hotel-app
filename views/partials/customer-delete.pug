@@ -3,9 +3,15 @@
     button.close(type='button' data-dismiss='modal' aria-label='Close')
       span(aria-hidden='true') &times;
     h4.modal-title Delete Customer
-  .modal-body              
-    p Are you sure you want to delete this customer?            
+  .modal-body  
+    if bookings.length > 0
+      .alert.alert-danger 
+        p There #{bookings.length==1? 'is':'are'} currently <strong>#{bookings.length} Booking#{bookings.length!=1? 's':''}</strong> referencing this Customer.
+        p In order to enforce Referential Integrity, you can not delete this Customer unless you first delete any Bookings referencing it.
+    else            
+      p Are you sure you want to delete this customer?            
   .modal-footer
     .div#errorMessage
     button.btn.btn-default(type='button' data-dismiss='modal') Cancel
-    button#saveBtn.btn.btn-danger(type='button' onclick="deleteCustomerRequest('"+id+"')") Delete
+    if !bookings.length > 0
+      button#saveBtn.btn.btn-danger(type='button' onclick="deleteCustomerRequest('"+id+"')") Delete

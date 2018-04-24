@@ -96,7 +96,12 @@ router.get('/customers/edit/:id', (req, res, next)=> {
 });
 // Delete Customer Partial Page
 router.get('/customers/delete/:id', (req, res, next)=> {
-    res.render('partials/customer-delete', { layout:false, id:req.params.id });
+    Booking.find({customer:req.params.id},(err,bookings)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/customer-delete', { layout:false, id:req.params.id, bookings:bookings });
+    });
 });
 
 
@@ -130,7 +135,12 @@ router.get('/rooms/edit/:id', (req, res, next)=> {
 });
 // Delete Room Partial Page
 router.get('/rooms/delete/:id', (req, res, next)=> {
-    res.render('partials/room-delete', { layout:false, id:req.params.id });
+    Booking.find({room: req.params.id}, (err, bookings)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/room-delete', { layout:false, id:req.params.id, bookings:bookings });
+    });
 });
 
 // Services ----------------------------------------------------------
@@ -153,8 +163,13 @@ router.get('/services/edit/:id', (req, res, next)=> {
 });
 // Delete Service Partial page
 router.get('/services/delete/:id', (req, res, next)=>{
-    res.render('partials/service-delete', { layout:false, id:req.params.id });
-})
+    Booking.find({service: req.params.id}, (err, bookings)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        res.render('partials/service-delete', { layout:false, id:req.params.id, bookings:bookings });
+    });
+});
 
 
 // Room Types ----------------------------------------------------------
@@ -177,8 +192,15 @@ router.get('/roomtypes/edit/:id', (req, res, next)=> {
 });
 // Delete RoomType Partial page
 router.get('/roomtypes/delete/:id', (req, res, next)=>{
-    res.render('partials/roomtype-delete', { layout:false, id:req.params.id });
-})
+    // Check if RoomType is being referenced in Rooms
+    Room.find({roomtype: req.params.id},(err, rooms)=>{
+        if(err) {
+            res.status(500).json({errmsg:err});
+        }
+        console.log(rooms);
+        res.render('partials/roomtype-delete', { layout:false, id:req.params.id, rooms:rooms });
+    });
+});
 
 
 // Export Router ----------------------------------------------------

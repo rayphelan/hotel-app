@@ -11,28 +11,28 @@ body, html {
 body {
   font-family: "PT Sans Narrow",sans-serif;
   font-size: 17px;
-  background:  linear-gradient(275deg,#1e0659, #4c015e, #1f0056, #38004f);
-  background-size: 700% 700%;
-  -webkit-animation: HotelManagementBG 15s ease infinite;
-  -moz-animation: HotelManagementBG 15s ease infinite;
-  animation: HotelManagementBG 15s ease infinite;
+  background:  linear-gradient(275deg,#371786, #5a1766, #7216a3, #200159);
+  background-size: 500% 500%;
+  -webkit-animation: HotelManagementBG 30s ease infinite;
+  -moz-animation: HotelManagementBG 30s ease infinite;
+  animation: HotelManagementBG 30s ease infinite;
 }
 
 /* Keyframes for Background Animation --------------------------------------- */
 @-webkit-keyframes HotelManagementBG {
-  0%{background-position:0% 40%}
-  50%{background-position:100% 60%}
-  100%{background-position:0% 40%}
+  0%{background-position:0% 30%}
+  50%{background-position:100% 90%}
+  100%{background-position:0% 30%}
 }
 @-moz-keyframes HotelManagementBG {
-  0%{background-position:0% 40%}
-  50%{background-position:100% 60%}
-  100%{background-position:0% 40%}
+  0%{background-position:0% 30%}
+  50%{background-position:100% 90%}
+  100%{background-position:0% 30%}
 }
 @keyframes HotelManagementBG { 
-  0%{background-position:0% 40%}
-  50%{background-position:100% 60%}
-  100%{background-position:0% 40%}
+  0%{background-position:0% 30%}
+  50%{background-position:100% 90%}
+  100%{background-position:0% 30%}
 }
 
 /* Title of Application -------------------------------------------- */
@@ -59,6 +59,14 @@ h1.page-header {
   text-shadow: #082c7a 2px 2px 6px;
 }
 
+/* Hover Style for Side Navbar and Tables */
+#side-menu a:hover, .table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0,0.6);
+  -webkit-transition: background-color 0.8s ease;
+  -moz-transition: background-color 0.8s ease;
+  transition: background-color 0.8s ease;
+}
+
 /* Main font color for application --------------------------------- */
 #side-menu a, .table, .modal-content {
   color: #b3e8f5;
@@ -73,11 +81,6 @@ h1.page-header {
   color: rgba(255,255,255,0.9);
   border: 0;
   text-shadow: #082c7a 2px 2px;
-}
-
-/* Table Hover style ----------------------------------------------- */
-.table-hover tbody tr:hover td {
-  background: rgba(0, 0, 0,1);
 }
 
 /* Buttons --------------------------------------------------------- */
@@ -158,9 +161,6 @@ td a[type='button'] {
 /* Side Menu ------------------------------------------------------- */
 #side-menu {
   margin-top:50px;
-}
-#side-menu a:hover {
-  background-color: rgba(29,8,90,0.4)
 }
 #side-menu.nav a:focus {
   background-color: rgba(0, 0, 0, 0.175);

@@ -2,21 +2,21 @@
 form#newServiceForm
   .modal-content
     .modal-header
-      button.close(type='button' data-dismiss='modal' aria-label='Close')
-        span(aria-hidden='true') &times;
       h4.modal-title Add Service
     .modal-body              
         .form-group
           label(for='name') Name
           input#name.form-control(type='text' name='name' placeholder='Name')
         .form-group
-          label(for='price') Price
-          input#price.form-control(type='number' name='price' placeholder='Price')
-        .form-group
-          label(for='type') Price Per
-          select#pricePer.form-control(name='pricePer' placeholder='Type')
-            option(value='Per-person') Per-person
-            option(value='Per-room') Per-room
+          .row
+            .col-md-6
+              label(for='price') Price
+              input#price.form-control(type='number' name='price' placeholder='Price')
+            .col-md-6
+              label(for='type') Price Per
+              select#pricePer.form-control(name='pricePer' placeholder='Type')
+                option(value='Per-person') Per-person
+                option(value='Per-room') Per-room
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel

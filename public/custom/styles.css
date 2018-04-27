@@ -68,13 +68,14 @@ h1.page-header {
 }
 
 /* Main font color for application --------------------------------- */
-#side-menu a, .table, .modal-content {
+#side-menu a, .table, .modal-content, #footer .credits {
   color: #b3e8f5;
 }
 
 /* Modal style ----------------------------------------------------- */
 .modal-content {
   background-color: black;
+  padding: 50px;
 }
 .modal-content h4 {
   font-size: 30px;
@@ -84,6 +85,14 @@ h1.page-header {
 }
 
 /* Buttons --------------------------------------------------------- */
+
+.btn {
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+  min-width: 110px;
+}
+.add-button {
+  margin-bottom: 20px;
+}
 .btn:hover {
   background-color: rgba(0, 0, 0, 0.175);
 }
@@ -103,7 +112,7 @@ h1.page-header {
   margin: 0 0 20px 0;
 }
 td a[type='button'] {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 .btn-outline {
   color: inherit;
@@ -131,31 +140,6 @@ td a[type='button'] {
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
   color: white;
-}
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  padding: 6px 0;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.428571429;
-}
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  border-radius: 25px;
-  font-size: 18px;
-  line-height: 1.33;
-}
-.btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  border-radius: 35px;
-  font-size: 24px;
-  line-height: 1.33;
 }
 
 /* Side Menu ------------------------------------------------------- */
@@ -185,10 +169,22 @@ td a[type='button'] {
   width: 140px;
   height: 140px;
   animation: spin 0.5s linear infinite;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  margin: auto;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+/* Pre-loader while ajax requests are being made */
+.preloader {
+  width: 180px;
+  height: 20px;
+  background-image: url('../images/loading.png');
 }
 
 /* Panels -------------------------------------------------------- */
@@ -199,7 +195,7 @@ td a[type='button'] {
 .panel-green {
   border-color: #01a65a;
 }
-.panel-green > .panel-heading {
+.panel-green > .panel-heading, .btn-success {
   border-color: #01a65a;
   color: white;
   background: linear-gradient(275deg, #0b9b17, #2ed41d, #0f610f);
@@ -218,7 +214,7 @@ td a[type='button'] {
 .panel-primary {
   border-color: #00c0ef;
 }
-.panel-primary > .panel-heading {
+.panel-primary > .panel-heading, .btn-primary {
   border-color: #00c0ef;
   color: white;
   background: linear-gradient(275deg, #098af3, #5dd3ee, #214181);
@@ -237,7 +233,7 @@ td a[type='button'] {
 .panel-red {
   border-color: #dd4c39;
 }
-.panel-red > .panel-heading {
+.panel-red > .panel-heading, .btn-danger {
   border-color: #dd4c39;
   color: white;
   background: linear-gradient(275deg, #b41d1d, #ec2116, #f70463);
@@ -256,16 +252,36 @@ td a[type='button'] {
 .panel-yellow {
   border-color: #ff841a;
 }
-.panel-yellow > .panel-heading {
+.panel-yellow > .panel-heading, .btn-default {
   border-color: #ff841a;
   color: white;
-  background: linear-gradient(275deg, #d56b22, #ecaf16, #f28c2a);
+  background: linear-gradient(275deg, #dfb80c, #f7ca03, #fcae06);
   background-size: 600% 600%;
   -webkit-animation: panels 15s ease infinite;
   -moz-animation: panels 15s ease infinite;
   animation: panels 15s ease infinite;
 }
 .panel-yellow > a {
+  color: #ff841a;
+}
+.panel-yellow > a:hover {
+  color: #ff841a;
+}
+
+/* ORANGE ------------------------------------------------------------ */
+.panel-orange {
+  border-color: #ff841a;
+}
+.panel-orange > .panel-heading, .btn-warning {
+  border-color: #ff841a;
+  color: white;
+  background: linear-gradient(275deg, #b8520e, #ec8f16, #f28c2a);
+  background-size: 600% 600%;
+  -webkit-animation: panels 15s ease infinite;
+  -moz-animation: panels 15s ease infinite;
+  animation: panels 15s ease infinite;
+}
+.panel-orange > a {
   color: #ff841a;
 }
 .panel-yellow > a:hover {
@@ -293,10 +309,11 @@ td a[type='button'] {
 #wrapper {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 #page-wrapper {
   padding: 0px;
-  min-height: 1000px;
+  min-height: 500px;
   background-color: transparent;
 }
 @media (min-width: 768px) {
@@ -308,6 +325,25 @@ td a[type='button'] {
   }
 }
 
+/* Footer --------------------------------------------------------- */
+#footer {
+  text-align: center;
+  padding: 10px;
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:40px;
+  background: #7216a3;
+  border-top: #00c0ef solid 1px;
+}
+#footer .credits {
+  font-size: 16px;
+}
+@media (min-width: 768px) {
+  #footer {
+    background: rgba(0, 0, 0,0.3);
+  }
+}
 /* Nav Bar ---------------------------------------------------------*/
 .navbar-default {
   background-color: transparent;

@@ -52,8 +52,6 @@ router.post('/', [
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
-  
-  console.log(req.body);
 
   booking = new Booking({
     _id: new mongoose.Types.ObjectId(),
@@ -66,10 +64,7 @@ router.post('/', [
     checkin: req.body.checkin,
     checkout: req.body.checkout,
     service: req.body.service
-  });
-
-  console.log(req.body);     
-  console.log(booking);     
+  });    
 
   booking.save((err,booking)=> {
     if(err) {
@@ -132,9 +127,7 @@ router.put('/:id', [
             checkin: req.body.checkin,
             checkout: req.body.checkout,
             service: req.body.service
-          });
-          console.log(req.body);     
-          console.log(booking);     
+          });          
           Booking.findByIdAndUpdate(req.params.id, booking, {}, function (err, booking) {
               if (err) {
                 return res.status(401).json({ "error":err });

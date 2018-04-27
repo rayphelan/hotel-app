@@ -1,4 +1,4 @@
-doctype html
+doctype html(lang='en')
 head
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
@@ -58,7 +58,10 @@ body
               a#services-btn.sidebar-btns(href='#services' onclick="getServicesFunction()")
                 i.fa.fa-bell-o.fa-fw
                 |  Services
-    block content
+    .wrapper  
+      block content
+      .div#footer
+        .credits Raymond Phelan | NCI Student 17119847 | 2018
 // Customer Javascript
 script(src='custom/custom.js')
 // Bootstrap Core JavaScript

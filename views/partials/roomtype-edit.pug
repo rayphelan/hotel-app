@@ -2,22 +2,22 @@
 form#editRoomtypeForm
   .modal-content
     .modal-header
-      button.close(type='button' data-dismiss='modal' aria-label='Close')
-        span(aria-hidden='true') &times;
       h4.modal-title Edit Room Type
     .modal-body              
         .form-group
           label(for='type') Room Type
           input#type.form-control(type='text' name='type' placeholder='Room Type' value=roomtype.type)
         .form-group
-          label(for='max_adults') Maximum Adults
-          input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults' value=roomtype.max_adults)
-        .form-group
-          label(for='max_childs') Maximum Children
-          input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children' value=roomtype.max_childs)
-        .form-group
-          label(for='max_infants') Maximum Infants
-          input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants' value=roomtype.max_infants)              
+          .row
+            .col-md-4
+              label(for='max_adults') Maximum Adults
+              input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults' value=roomtype.max_adults)
+            .col-md-4
+              label(for='max_childs') Maximum Children
+              input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children' value=roomtype.max_childs)
+            .col-md-4
+              label(for='max_infants') Maximum Infants
+              input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants' value=roomtype.max_infants)              
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel

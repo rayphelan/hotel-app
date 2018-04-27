@@ -3,13 +3,14 @@
     .col-lg-12
       h1.page-header Services
       .div
-        a#addServiceButton.btn.btn-primary(href='#' type='button' data-toggle='modal' data-target='#serviceModal')
+        a#addServiceButton.btn.btn-primary.add-button(href='#' type='button' data-toggle='modal' data-target='#serviceModal')
             i.fa.fa-plus.fa-fw
             |  Add Service        
   .row
     .col-lg-12
       .card  
         .div#serviceList
+          .preloader
           
 #serviceModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='Services')
   .modal-dialog(role='document')

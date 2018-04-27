@@ -2,8 +2,6 @@
 form#editRoomForm
   .modal-content
     .modal-header
-      button.close(type='button' data-dismiss='modal' aria-label='Close')
-        span(aria-hidden='true') &times;
       h4.modal-title Edit Room
     .modal-body              
         .form-group
@@ -15,13 +13,15 @@ form#editRoomForm
             each roomtype in roomtypes
               option(value=roomtype._id selected=(room.roomtype.toString() == roomtype._id)) #{roomtype.type}
         .form-group
-          label(for='price') Price
-          input#price.form-control(type='number' name='price' placeholder='Price' value=room.price)   
-        .form-group
-          label(for='pricePer') Price Per
-          select#pricePer.form-control(name='pricePer' placeholder='Type')
-            option(value='Per-person' selected=(room.pricePer=='Per-person')) Per-person
-            option(value='Per-room' selected=(room.pricePer=='Per-room')) Per-room             
+          .row
+            .col-md-6
+              label(for='price') Price
+              input#price.form-control(type='number' name='price' placeholder='Price' value=room.price)   
+            .col-md-6
+              label(for='pricePer') Price Per
+              select#pricePer.form-control(name='pricePer' placeholder='Type')
+                option(value='Per-person' selected=(room.pricePer=='Per-person')) Per-person
+                option(value='Per-room' selected=(room.pricePer=='Per-room')) Per-room             
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel

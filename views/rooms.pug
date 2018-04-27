@@ -3,14 +3,14 @@
     .col-lg-12
       h1.page-header Rooms
       .div
-        a#addRoomButton.btn.btn-primary(href='#' type='button' data-toggle='modal' data-target='#roomModal')
+        a#addRoomButton.btn.btn-primary.add-button(href='#' type='button' data-toggle='modal' data-target='#roomModal')
             i.fa.fa-plus.fa-fw
             |  Add Room        
   .row
     .col-lg-12
       .card  
         .div#roomList
-          
+          .preloader          
             
 #roomModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='Rooms')
   .modal-dialog(role='document')

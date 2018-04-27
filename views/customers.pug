@@ -3,13 +3,14 @@
     .col-lg-12
       h1.page-header Customers
       .div
-        a#addCustomerButton.btn.btn-primary(href='#' type='button' data-toggle='modal' data-target='#customerModal')
+        a#addCustomerButton.btn.btn-primary.add-button(href='#' type='button' data-toggle='modal' data-target='#customerModal')
             i.fa.fa-plus.fa-fw
             |  Add Customer        
   .row
     .col-lg-12
       .card  
         .div#customerList
+          .preloader
           
 #customerModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='Customers')
   .modal-dialog(role='document')

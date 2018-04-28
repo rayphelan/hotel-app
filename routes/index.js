@@ -65,11 +65,7 @@ router.get('/bookings/edit/:id', (req, res, next)=> {
             res.status(500).json({errmsg:err});
         }
         res.render('partials/booking-edit',{ layout:false, booking:results.booking, customers:results.customers, rooms:results.rooms, services:results.services });
-    });
-
-    Booking.findById(req.params.id, (err, booking)=>{
-        
-    })   
+    }); 
 });
 // Delete Booking Partial Page
 router.get('/bookings/delete/:id', (req, res, next)=> {

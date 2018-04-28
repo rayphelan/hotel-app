@@ -12,7 +12,7 @@ var bookingSchema = Schema({
   checkin: Date,
   checkout: Date,
   price: Number,
-  service: { type: Schema.Types.ObjectId, ref: 'service' }
+  service: { type: Schema.Types.ObjectId, ref: 'service', default:null }
 });
 
 

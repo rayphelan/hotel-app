@@ -8,7 +8,7 @@ form#newBookingForm
           .row
             .col-md-4.col-sm-12
               label(for='booking_date') Booking Date
-              input#booking_date.form-control(type='date' name='booking_date' placeholder='Booking Date')
+              input#booking_date.form-control(type='date' name='booking_date' placeholder='Booking Date' value=moment().format('YYYY-MM-DD'))
             .col-md-4.col-sm-12
               label(for='checkin') Check-in Date
               input#checkin.form-control(type='date' name='checkin' placeholder='Check-in')

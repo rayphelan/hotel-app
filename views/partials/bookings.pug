@@ -24,7 +24,11 @@ div
           td #{booking.adults}
           td #{booking.childs}
           td #{booking.infants}
-          td #{booking.service.name}
+          td 
+            if !booking.service
+              p None
+            else
+              p #{booking.service.name}
           td #{booking.price}
           td.text-right
             a.btn.btn-warning(onclick='editBookingFunction("'+booking._id+'")' type='button' data-toggle='modal' data-target='#bookingModal')

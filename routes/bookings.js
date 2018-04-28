@@ -3,8 +3,11 @@ var router = express.Router();
 var Booking = require('../models/booking');
 var Customer = require('../models/customer');
 var Room = require('../models/room');
+var RoomType = require('../models/roomtype');
 var Service = require('../models/service');
 var mongoose = require('mongoose');
+var moment = require('moment');
+var async = require('async');
 
 
 const { body, validationResult } = require('express-validator/check');
@@ -48,39 +51,99 @@ router.post('/', [
   sanitizeBody('service').trim(),
 
 ], (req, res, next) => {
+  
+  // Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
 
-  booking = new Booking({
-    _id: new mongoose.Types.ObjectId(),
-    customer: req.body.customer,
-    room: req.body.room,
-    adults: req.body.adults,
-    childs: req.body.childs? req.body.childs:0,
-    infants: req.body.infants? req.body.infants:0,
-    booking_date: req.body.booking_date,
-    checkin: req.body.checkin,
-    checkout: req.body.checkout,
-    service: req.body.service
-  });    
-
-  booking.save((err,booking)=> {
-    if(err) {
-      console.log(err);
-      res.status(500).json({error:err});
+  // Async
+  async.parallel({
+    // Room Data
+    room: callback=>{
+        Room.findById(req.body.room).exec(callback);
+    },
+    // Service Data
+    service: callback=>{
+        if(req.body.service) {
+          Service.findById(req.body.service).exec(callback);            
+        }
+        else callback();
     }
-    Booking.find({})
-    .populate('customer room service')
-    .exec((err,bookings)=>{
+  }, (err, results)=>{
       if(err) {
-        console.log(err);
-        res.status(500).json({error:err});
-      }    
-      res.render('partials/bookings',{layout:false, bookings:bookings });
-    });
-  });
+          res.status(500).json({errmsg:err});
+      }
+
+     // Variable to store calculated price
+     var price = 0;
+    
+     // Pax - number of people in booking
+     var pax = parseInt(req.body.adults) + parseInt(req.body.childs) + parseInt(req.body.infants);
+   
+     // If room price is "Per-person", paxFactor is the number of people in the room
+     // If room price is "Per-room", paxFactor is 1
+     var paxFactor = 0;  
+   
+     // Price Per person or room
+     if(results.room.pricePer == 'Per-person') {
+       paxFactor = 1;
+     }
+     else if(results.room.pricePer == 'Per-room') {
+       paxFactor = pax;
+     }
+
+     // How many days
+     var checkin = moment(req.body.checkin);
+     var checkout = moment(req.body.checkout);
+     var days = checkout.diff(checkin, 'days');
+   
+     // Room Price
+     price = (results.room.price * days) * paxFactor;
+   
+     // Add Service Price
+     if(results.service) {
+       if(results.service.pricePer=='Per-person') {
+         price += (results.service.price * pax);
+       }
+       else if(results.service.pricePer=='Per-room') {
+         price += results.service.price;
+       }
+     }
+
+      // Create new Booking instance
+      booking = new Booking({
+        _id: new mongoose.Types.ObjectId(),
+        customer: req.body.customer,
+        room: req.body.room,
+        adults: req.body.adults,
+        childs: req.body.childs? req.body.childs:0,
+        infants: req.body.infants? req.body.infants:0,
+        booking_date: req.body.booking_date,
+        checkin: req.body.checkin,
+        checkout: req.body.checkout,
+        price: price,
+        service: (req.body.service? req.body.service: null)
+      });
+
+      // Save Booking
+      booking.save((err,booking)=> {
+        if(err) {
+          console.log(err);
+          res.status(500).json({error:err});
+        }
+        Booking.find({})
+        .populate('customer room service')
+        .exec((err,bookings)=>{
+          if(err) {
+            console.log(err);
+            res.status(500).json({error:err});
+          }    
+          res.render('partials/bookings',{layout:false, bookings:bookings });
+        });
+      });
+  }); // async end
 });
 
 
@@ -109,40 +172,94 @@ router.put('/:id', [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-      // Extract the validation errors from a request.
-      const errors = validationResult(req);
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.mapped() });
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() });
+    }
+    
+    // Async
+    async.parallel({
+      // Room Data
+      room: callback=>{
+          Room.findById(req.body.room).exec(callback);
+      },
+      // Service Data
+      service: callback=>{
+          if(req.body.service) {
+            Service.findById(req.body.service).exec(callback);            
+          }
+          else callback();
       }
-      else {
-          booking = new Booking({
-            _id: req.params.id,
-            customer: req.body.customer,
-            room: req.body.room,
-            adults: req.body.adults,
-            childs: req.body.childs,
-            infants: req.body.infants,
-            booking_date: req.body.booking_date,
-            checkin: req.body.checkin,
-            checkout: req.body.checkout,
-            service: req.body.service
-          });          
-          Booking.findByIdAndUpdate(req.params.id, booking, {}, function (err, booking) {
-              if (err) {
-                return res.status(401).json({ "error":err });
-              }              
-              Booking.find({})
-              .populate('customer room service')
-              .exec((err,bookings)=>{
-                if(err) {
-                  console.log(err);
-                  res.status(500).json({error:err});
-                }    
-                res.render('partials/bookings',{layout:false, bookings:bookings });
-              });             
-          });
+    }, (err, results)=>{
+      
+      // Variable to store calculated price
+      var price = 0;
+    
+      // Pax - number of people in booking
+      var pax = parseInt(req.body.adults) + parseInt(req.body.childs) + parseInt(req.body.infants);
+    
+      // If room price is "Per-person", paxFactor is the number of people in the room
+      // If room price is "Per-room", paxFactor is 1
+      var paxFactor = 0;  
+    
+      // Price Per person or room
+      if(results.room.pricePer == 'Per-person') {
+        paxFactor = 1;
       }
+      else if(results.room.pricePer == 'Per-room') {
+        paxFactor = pax;
+      }
+
+      // How many days
+      var checkin = moment(req.body.checkin);
+      var checkout = moment(req.body.checkout);
+      var days = checkout.diff(checkin, 'days');
+    
+      // Room Price
+      price = (results.room.price * days) * paxFactor;
+    
+      // Add Service Price
+      if(results.service) {
+        if(results.service.pricePer=='Per-person') {
+          price += (results.service.price * pax);
+        }
+        else if(results.service.pricePer=='Per-room') {
+          price += results.service.price;
+        }
+      }
+    
+      // Booking Instance
+      booking = new Booking({
+        _id: req.params.id,
+        customer: req.body.customer,
+        room: req.body.room,
+        adults: req.body.adults,
+        childs: req.body.childs,
+        infants: req.body.infants,
+        booking_date: req.body.booking_date,
+        checkin: req.body.checkin,
+        checkout: req.body.checkout,
+        service: (req.body.service? req.body.service: null),
+        price: price
+      });   
+      
+      Booking.findByIdAndUpdate(req.params.id, booking, {}, function (err, booking) {
+        if (err) {
+          return res.status(401).json({ "error":err });
+        }              
+        Booking.find({})
+        .populate('customer room service')
+        .exec((err,bookings)=>{
+          if(err) {
+            console.log(err);
+            res.status(500).json({error:err});
+          }    
+          res.render('partials/bookings',{layout:false, bookings:bookings });
+        });             
+      });
+    });
   }
 ]);
 

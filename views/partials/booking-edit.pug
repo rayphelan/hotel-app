@@ -43,7 +43,10 @@ form#editBookingForm
           select#service.form-control(name='service')
             option(value='' selected)
             each service in services  
-              option(value=service._id selected=(booking.service.toString() == service._id)) #{service.name}
+              if !booking.service
+                option(value=service._id) #{service.name}
+              else
+                option(value=service._id selected=(booking.service.toString() == service._id)) #{service.name}
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel

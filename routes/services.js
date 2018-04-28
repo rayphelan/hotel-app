@@ -2,15 +2,14 @@ var express = require('express');
 var router = express.Router();
 var Service = require('../models/service');
 var mongoose = require('mongoose');
-
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+
 
 // Service Index page (all services)
 router.get('/', (req, res, next)=>{
   Service.find({}, (err, services)=>{
-    if(err) {
-      console.log(err);
+    if(err) {      console.log(err);
       res.status(500).json({error:err});
     }    
     res.render('partials/services',{layout:false, services:services });
@@ -32,11 +31,14 @@ router.post('/', [
   sanitizeBody('pricePer').trim(),
 
 ], (req, res, next) => {
+
+  //  Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
 
+  // Service Instance
   service = new Service({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -44,9 +46,9 @@ router.post('/', [
     pricePer: req.body.pricePer
   });
 
+  // Save Service
   service.save((err,service)=> {
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }
     Service.find({}, (err, services)=>{
@@ -76,32 +78,32 @@ router.put('/:id', [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-      // Extract the validation errors from a request.
-      const errors = validationResult(req);
+    // Validation Errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() });
+    }
+    
+    // Service Instance
+    service = new Service({
+      _id: req.params.id,
+      name: req.body.name,
+      price: req.body.price,
+      pricePer: req.body.pricePer
+    });
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.mapped() });
-      }
-      else {
-
-          service = new Service({
-            _id: req.params.id,
-            name: req.body.name,
-            price: req.body.price,
-            pricePer: req.body.pricePer
-          });
-          Service.findByIdAndUpdate(req.params.id, service, {}, function (err, service) {
-              if (err) {
-                return res.status(401).json({ "error":err });
-              }              
-              Service.find({}, (err, services)=>{
-                if (err) {
-                  return res.status(500).json({ errors:err });
-                }      
-                res.render('partials/services',{layout:false, services:services });
-              })              
-          });
-      }
+    // Update Service
+    Service.findByIdAndUpdate(req.params.id, service, {}, function (err, service) {
+        if (err) {
+          return res.status(401).json({ "error":err });
+        }              
+        Service.find({}, (err, services)=>{
+          if (err) {
+            return res.status(500).json({ errors:err });
+          }      
+          res.render('partials/services',{layout:false, services:services });
+        })              
+    });
   }
 ]);
 

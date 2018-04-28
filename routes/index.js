@@ -8,10 +8,12 @@ var Roomtype = require('../models/roomtype');
 var Booking = require('../models/booking');
 var async = require('async');
 
+
 // Index page (Same as dashboard)
 router.get('/',(req, res, next)=>{
     res.render('index', { title: 'Hotel Manager' });
 });
+
 
 // Dashboard
 router.get('/dashboard',(req,res,next)=>{
@@ -27,6 +29,7 @@ router.get('/bookings',(req, res, next)=>{
 // New Booking Page
 router.get('/bookings/new', (req, res, next)=>{
 
+    // Perform operations in parallel for 'customers', 'rooms' and 'services'
     async.parallel({
         customers: callback=>{
             Customer.find({}).exec(callback);            
@@ -47,6 +50,7 @@ router.get('/bookings/new', (req, res, next)=>{
 // Edit Booking Partial Page
 router.get('/bookings/edit/:id', (req, res, next)=> {   
     
+    // Perform operations in parallel for 'customers', 'rooms' and 'services'
     async.parallel({
         booking: callback=>{
             Booking.findById(req.params.id).exec(callback);

@@ -8,8 +8,6 @@ var Service = require('../models/service');
 var mongoose = require('mongoose');
 var moment = require('moment');
 var async = require('async');
-
-
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -17,10 +15,9 @@ const { sanitizeBody } = require('express-validator/filter');
 // Booking Index page (all bookings)
 router.get('/', (req, res, next)=>{
   Booking.find({})
-  .populate('customer room service')
+  .populate('customer room service')  // include full details from 'customer', 'room' and 'service'
   .exec((err,bookings)=>{
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }    
     res.render('partials/bookings',{layout:false, bookings:bookings });
@@ -52,13 +49,13 @@ router.post('/', [
 
 ], (req, res, next) => {
   
-  // Errors
+  // Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
 
-  // Async
+  // Async - Perform 'Room' and 'Service' functions in parallel
   async.parallel({
     // Room Data
     room: callback=>{
@@ -134,7 +131,7 @@ router.post('/', [
           res.status(500).json({error:err});
         }
         Booking.find({})
-        .populate('customer room service')
+        .populate('customer room service')  // include full details from 'customer', 'room' and 'service'
         .exec((err,bookings)=>{
           if(err) {
             console.log(err);
@@ -172,9 +169,8 @@ router.put('/:id', [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-    // Extract the validation errors from a request.
+    // Validation Errors
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.mapped() });
     }
@@ -253,7 +249,6 @@ router.put('/:id', [
         .populate('customer room service')
         .exec((err,bookings)=>{
           if(err) {
-            console.log(err);
             res.status(500).json({error:err});
           }    
           res.render('partials/bookings',{layout:false, bookings:bookings });
@@ -270,7 +265,7 @@ router.delete('/:id', (req, res, next)=>{
     if(err) {
       return res.status(401).json({ "error":err });
     }
-    res.send(req.params.id);
+    res.send(req.params.id); // Respond with deleted id
   });
 });
 

@@ -2,15 +2,14 @@ var express = require('express');
 var router = express.Router();
 var Customer = require('../models/customer');
 var mongoose = require('mongoose');
-
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+
 
 // Customer Index page (all customers)
 router.get('/', (req, res, next)=>{
   Customer.find({}, (err, customers)=>{
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }    
     res.render('partials/customers',{layout:false, customers:customers });
@@ -35,11 +34,14 @@ router.post('/', [
   sanitizeBody('gender').trim(),
 
 ], (req, res, next) => {
+
+  // Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
 
+  // Create Customer Instance
   customer = new Customer({
     _id: new mongoose.Types.ObjectId(),
     firstName: req.body.firstName,
@@ -49,9 +51,9 @@ router.post('/', [
     gender: req.body.gender
   });
 
+  // Save Customer
   customer.save((err,customer)=> {
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }
     Customer.find({}, (err, customers)=>{
@@ -84,34 +86,34 @@ router.put('/:id', [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-      // Extract the validation errors from a request.
-      const errors = validationResult(req);
+    // Validation Errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() });
+    }
+    
+    // Customer Instance
+    customer = new Customer({
+      _id: req.params.id,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      gender: req.body.gender
+    });
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.mapped() });
-      }
-      else {
-
-          customer = new Customer({
-            _id: req.params.id,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            phone: req.body.phone,
-            gender: req.body.gender
-          });
-          Customer.findByIdAndUpdate(req.params.id, customer, {}, function (err, customer) {
-              if (err) {
-                return res.status(401).json({ "error":err });
-              }              
-              Customer.find({}, (err, customers)=>{
-                if (err) {
-                  return res.status(500).json({ errors:err });
-                }      
-                res.render('partials/customers',{layout:false, customers:customers });
-              })              
-          });
-      }
+    // Update Customer
+    Customer.findByIdAndUpdate(req.params.id, customer, {}, function (err, customer) {
+        if (err) {
+          return res.status(401).json({ "error":err });
+        }              
+        Customer.find({}, (err, customers)=>{
+          if (err) {
+            return res.status(500).json({ errors:err });
+          }      
+          res.render('partials/customers',{layout:false, customers:customers });
+        })              
+    });
   }
 ]);
 
@@ -125,6 +127,7 @@ router.delete('/:id', (req, res, next)=>{
     res.send(req.params.id);
   });
 });
+
 
 // Export Router
 module.exports = router;

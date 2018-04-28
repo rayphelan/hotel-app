@@ -2,15 +2,14 @@ var express = require('express');
 var router = express.Router();
 var Roomtype = require('../models/roomtype');
 var mongoose = require('mongoose');
-
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+
 
 // Roomtypes Index page (all roomtypes)
 router.get('/', (req, res, next)=>{
   Roomtype.find({}, (err, roomtypes)=>{
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }    
     res.render('partials/roomtypes',{layout:false, roomtypes:roomtypes });
@@ -34,11 +33,14 @@ router.post('/', [
   sanitizeBody('max_infants').trim(),
 
 ], (req, res, next) => {
+
+  // Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
 
+  // Roomtype Instance
   roomtype = new Roomtype({
     _id: new mongoose.Types.ObjectId(),
     type: req.body.type,
@@ -47,9 +49,9 @@ router.post('/', [
     max_infants: req.body.max_infants
   });
 
+  // Save Roomtype
   roomtype.save((err,roomtype)=> {
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }
     Roomtype.find({}, (err, roomtypes)=>{
@@ -81,33 +83,34 @@ router.put('/:id', [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-      // Extract the validation errors from a request.
-      const errors = validationResult(req);
+    // Validation Errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() });
+    }
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.mapped() });
-      }
-      else {
+    // Roomtype Instance
+    roomtype = new Roomtype({
+      _id: req.params.id,
+      type: req.body.type,
+      max_adults: req.body.max_adults,
+      max_childs: req.body.max_childs,
+      max_infants: req.body.max_infants
+    });
 
-          roomtype = new Roomtype({
-            _id: req.params.id,
-            type: req.body.type,
-            max_adults: req.body.max_adults,
-            max_childs: req.body.max_childs,
-            max_infants: req.body.max_infants
-          });
-          Roomtype.findByIdAndUpdate(req.params.id, roomtype, {}, function (err, roomtype) {
-              if (err) {
-                return res.status(401).json({ "error":err });
-              }              
-              Roomtype.find({}, (err, roomtypes)=>{
-                if (err) {
-                  return res.status(500).json({ errors:err });
-                }      
-                res.render('partials/roomtypes',{layout:false, roomtypes:roomtypes });
-              })              
-          });
-      }
+    // Update Roomtype
+    Roomtype.findByIdAndUpdate(req.params.id, roomtype, {}, function (err, roomtype) {
+        if (err) {
+          return res.status(401).json({ "error":err });
+        }              
+        Roomtype.find({}, (err, roomtypes)=>{
+          if (err) {
+            return res.status(500).json({ errors:err });
+          }      
+          res.render('partials/roomtypes',{layout:false, roomtypes:roomtypes });
+        })              
+    });
+
   }
 ]);
 

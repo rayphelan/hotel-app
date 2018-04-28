@@ -3,9 +3,9 @@ var router = express.Router();
 var Room = require('../models/room');
 var Roomtype = require('../models/roomtype');
 var mongoose = require('mongoose');
-
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+
 
 // Rooms Index page (all rooms)
 router.get('/', (req, res, next)=>{
@@ -14,7 +14,6 @@ router.get('/', (req, res, next)=>{
   populate('roomtype').
   exec(function (err, rooms) {
     if (err) {
-      console.log(err);
       res.status(500).json({error:err});
     }    
     res.render('partials/rooms',{layout:false, rooms:rooms });
@@ -38,14 +37,14 @@ router.post('/', [
   sanitizeBody('pricePer').trim(),
 
 ], (req, res, next) => {
-  // Get the validation result whenever you want; see the Validation Result API for all options!
+  
+  // Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.mapped() });
   }
 
-  console.log(req.body);
-  
+  // Room Instance
   room = new Room({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -54,13 +53,13 @@ router.post('/', [
     pricePer: req.body.pricePer
   });
 
+  // Save Room
   room.save((err,room)=> {
     if(err) {
-      console.log(err);
       res.status(500).json({error:err});
     }
     Room.find({})
-    .populate('roomtype')
+    .populate('roomtype')  // include full details from 'roomtype'
     .exec((err, rooms)=>{
       if (!errors.isEmpty()) {
         return res.status(500).json({ errors:err });
@@ -90,36 +89,35 @@ router.put('/:id', [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-      // Extract the validation errors from a request.
-      const errors = validationResult(req);
+    // Validation Errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() });
+    }
+    
+    // Room Instance
+    room = new Room({
+      _id: req.params.id,
+      name: req.body.name,
+      roomtype: req.body.roomtype,
+      price: req.body.price,
+      pricePer: req.body.pricePer
+    });
 
-      if (!errors.isEmpty()) {
-        console.log(errors.mapped());
-        return res.status(400).json({ errors: errors.mapped() });
-      }
-      else {
-
-          room = new Room({
-            _id: req.params.id,
-            name: req.body.name,
-            roomtype: req.body.roomtype,
-            price: req.body.price,
-            pricePer: req.body.pricePer
-          });
-          Room.findByIdAndUpdate(req.params.id, room, {}, function (err, room) {
-              if (err) {
-                return res.status(500).json({ "error":err });
-              }              
-              Room.find({})
-              .populate('roomtype')
-              .exec((err, rooms)=>{
-                if (err) {
-                  return res.status(500).json({ errors:err });
-                }      
-                res.render('partials/rooms',{layout:false, rooms:rooms });
-              });              
-          });
-      }
+    // Update Room
+    Room.findByIdAndUpdate(req.params.id, room, {}, function (err, room) {
+        if (err) {
+          return res.status(500).json({ "error":err });
+        }              
+        Room.find({})
+        .populate('roomtype')
+        .exec((err, rooms)=>{
+          if (err) {
+            return res.status(500).json({ errors:err });
+          }      
+          res.render('partials/rooms',{layout:false, rooms:rooms });
+        });              
+    });  
   }
 ]);
 

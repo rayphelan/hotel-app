@@ -52,6 +52,7 @@ router.post('/', [
   // Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log(errors.mapped());
     return res.status(400).json({ errors: errors.mapped() });
   }
 
@@ -69,77 +70,77 @@ router.post('/', [
         else callback();
     }
   }, (err, results)=>{
-      if(err) {
-          res.status(500).json({errmsg:err});
-      }
+    if(err) {
+        res.status(500).json({errmsg:err});
+    }
 
-     // Variable to store calculated price
-     var price = 0;
+    // Variable to store calculated price
+    var price = 0;
+  
+    // Pax - number of people in booking
+    var pax = Number(req.body.adults) + Number(req.body.childs) + Number(req.body.infants);
     
-     // Pax - number of people in booking
-     var pax = parseInt(req.body.adults) + parseInt(req.body.childs) + parseInt(req.body.infants);
-   
-     // If room price is "Per-person", paxFactor is the number of people in the room
-     // If room price is "Per-room", paxFactor is 1
-     var paxFactor = 0;  
-   
-     // Price Per person or room
-     if(results.room.pricePer == 'Per-person') {
-       paxFactor = 1;
-     }
-     else if(results.room.pricePer == 'Per-room') {
-       paxFactor = pax;
-     }
+    // If room price is "Per-person", paxFactor is the number of people in the room
+    // If room price is "Per-room", paxFactor is 1
+    var paxFactor = 0;  
+  
+    // Price Per person or room
+    if(results.room.pricePer == 'Per-person') {
+      paxFactor = pax;
+    }
+    else if(results.room.pricePer == 'Per-room') {
+      paxFactor = 1;
+    }
 
-     // How many days
-     var checkin = moment(req.body.checkin);
-     var checkout = moment(req.body.checkout);
-     var days = checkout.diff(checkin, 'days');
-   
-     // Room Price
-     price = (results.room.price * days) * paxFactor;
-   
-     // Add Service Price
-     if(results.service) {
-       if(results.service.pricePer=='Per-person') {
-         price += (results.service.price * pax);
-       }
-       else if(results.service.pricePer=='Per-room') {
-         price += results.service.price;
-       }
-     }
+    // How many days
+    var checkin = moment(req.body.checkin);
+    var checkout = moment(req.body.checkout);
+    var days = checkout.diff(checkin, 'days');
+  
+    // Room Price
+    price = (results.room.price * days) * paxFactor;
+  
+    // Add Service Price
+    if(results.service) {
+      if(results.service.pricePer=='Per-person') {
+        price += (results.service.price * pax);
+      }
+      else if(results.service.pricePer=='Per-room') {
+        price += results.service.price;
+      }
+    }
 
-      // Create new Booking instance
-      booking = new Booking({
-        _id: new mongoose.Types.ObjectId(),
-        customer: req.body.customer,
-        room: req.body.room,
-        adults: req.body.adults,
-        childs: req.body.childs? req.body.childs:0,
-        infants: req.body.infants? req.body.infants:0,
-        booking_date: req.body.booking_date,
-        checkin: req.body.checkin,
-        checkout: req.body.checkout,
-        price: price,
-        service: (req.body.service? req.body.service: null)
-      });
+    // Create new Booking instance
+    booking = new Booking({
+      _id: new mongoose.Types.ObjectId(),
+      customer: req.body.customer,
+      room: req.body.room,
+      adults: req.body.adults,
+      childs: req.body.childs? req.body.childs:0,
+      infants: req.body.infants? req.body.infants:0,
+      booking_date: req.body.booking_date,
+      checkin: req.body.checkin,
+      checkout: req.body.checkout,
+      price: price,
+      service: (req.body.service? req.body.service: null)
+    });
 
-      // Save Booking
-      booking.save((err,booking)=> {
+    // Save Booking
+    booking.save((err,booking)=> {
+      if(err) {
+        console.log(err);
+        res.status(500).json({error:err});
+      }
+      Booking.find({})
+      .populate('customer room service')  // include full details from 'customer', 'room' and 'service'
+      .exec((err,bookings)=>{
         if(err) {
           console.log(err);
           res.status(500).json({error:err});
-        }
-        Booking.find({})
-        .populate('customer room service')  // include full details from 'customer', 'room' and 'service'
-        .exec((err,bookings)=>{
-          if(err) {
-            console.log(err);
-            res.status(500).json({error:err});
-          }    
-          res.render('partials/bookings',{layout:false, bookings:bookings });
-        });
+        }    
+        res.render('partials/bookings',{layout:false, bookings:bookings });
       });
+    });
   }); // async end
 });
 
@@ -192,22 +193,22 @@ router.put('/:id', [
       
       // Variable to store calculated price
       var price = 0;
-    
+
       // Pax - number of people in booking
-      var pax = parseInt(req.body.adults) + parseInt(req.body.childs) + parseInt(req.body.infants);
-    
+      var pax = Number(req.body.adults) + Number(req.body.childs) + Number(req.body.infants);
+
       // If room price is "Per-person", paxFactor is the number of people in the room
       // If room price is "Per-room", paxFactor is 1
       var paxFactor = 0;  
     
       // Price Per person or room
       if(results.room.pricePer == 'Per-person') {
-        paxFactor = 1;
-      }
-      else if(results.room.pricePer == 'Per-room') {
         paxFactor = pax;
       }
-
+      else if(results.room.pricePer == 'Per-room') {
+        paxFactor = 1;
+      }
+      
       // How many days
       var checkin = moment(req.body.checkin);
       var checkout = moment(req.body.checkout);

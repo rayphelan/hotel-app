@@ -19,6 +19,11 @@
 script.
 
   $(function() {
+
+    // Clear modal content after closing
+    $('#roomtypeModal').on('hidden.bs.modal', function () {
+      $('#modalContent').html('');  
+    });
   
     // Get Room Types
     $.get( "/api/roomtypes", data => {

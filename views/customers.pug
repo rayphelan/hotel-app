@@ -19,6 +19,11 @@
 script.
 
   $(function() {
+
+    // Clear modal content after closing
+    $('#customerModal').on('hidden.bs.modal', function () {
+      $('#modalContent').html('');  
+    });
   
     // Get Customers
     $.get( "/api/customers", data => {

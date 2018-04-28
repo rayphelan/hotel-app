@@ -19,7 +19,12 @@
 script.
 
   $(function() {
-  
+
+    // Clear modal content after closing
+    $('#bookingModal').on('hidden.bs.modal', function () {
+      $('#modalContent').html('');  
+    });
+
     // Get Bookings
     $.get( "/api/bookings", data => {
       $('#bookingList').html(data);

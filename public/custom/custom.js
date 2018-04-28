@@ -20,9 +20,10 @@ $(function() {
       getServicesFunction();
     break;
     default: getDashboardFunction();
-  };   
+  };  
 })
 
+// Fade-in and Fade-out Constant variables
 const FADEOUT = 400;
 const FADEIN = 400;
 

@@ -7,6 +7,9 @@ var path = require('path');
 // Assign express to the variable "app"
 var app = express();                        
 
+// Port
+var port = process.env.PORT || 3000;
+
 // Middleware for parsing the entire body portion of an incoming request
 var bodyParser = require('body-parser');    
 
@@ -56,6 +59,6 @@ app.use('/api/roomtypes', roomtypeRouter);
 app.use('/api/services', servicesRouter);
 
 // Start server
-app.listen(3000, ()=>{
-    console.log('Server running on port 3000');
+app.listen(port, ()=>{
+    console.log('Server running on port ' + port);
 })

@@ -31,10 +31,19 @@ router.post('/', [
   // Validate fields
   body('customer').isLength({ min: 1 }).trim().withMessage('Customer must be specified. '),
   body('room').isLength({ min: 1 }).trim().withMessage('Room must be specified. '),
-  body('adults').isLength({ min: 1 }).trim().withMessage('At least 1 adult is required. '),
-  body('booking_date').isLength({ min: 1 }).trim().withMessage('Booking Date must be specified. '),
-  body('checkin').isLength({ min: 1 }).trim().withMessage('Check-in Date must be specified. '),
-  body('checkout').isLength({ min: 1 }).trim().withMessage('Check-out Date must be specified. '),
+  body('adults')
+    .isLength({ min: 1 }).trim().withMessage('The number of adults is required. ')
+    .isInt({ min: 1 }).trim().withMessage('At least 1 adult is required. '),
+  body('childs').isInt({ min:0 }).trim().withMessage('A value of zero or more is required for childs. '),
+  body('infants').isInt({ min:0 }).trim().withMessage('A value of zero or more is required for infants. '),
+  body('booking_date')
+    .isLength({ min: 1 }).trim().withMessage('Booking Date must be specified. '),
+  body('checkin')
+    .isLength({ min: 1 }).trim().withMessage('Check-in Date must be specified. ')
+    .isAfter(new Date().toString()).trim().withMessage('Check-in Date must be after today. '),
+  body('checkout')
+    .isLength({ min: 1 }).trim().withMessage('Check-out Date must be specified. ')
+    .isAfter(new Date().toString()).trim().withMessage('Check-out Date must be after today. '),
 
   // Sanitize fields.
   sanitizeBody('customer').trim(),
@@ -52,7 +61,6 @@ router.post('/', [
   // Validation Errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.mapped());
     return res.status(400).json({ errors: errors.mapped() });
   }
 
@@ -127,15 +135,13 @@ router.post('/', [
 
     // Save Booking
     booking.save((err,booking)=> {
-      if(err) {
-        console.log(err);
+      if(err) {        
         res.status(500).json({error:err});
       }
       Booking.find({})
       .populate('customer room service')  // include full details from 'customer', 'room' and 'service'
       .exec((err,bookings)=>{
         if(err) {
-          console.log(err);
           res.status(500).json({error:err});
         }    
         res.render('partials/bookings',{layout:false, bookings:bookings });
@@ -151,11 +157,21 @@ router.put('/:id', [
   // Validate fields
   body('customer').isLength({ min: 1 }).trim().withMessage('Customer must be specified. '),
   body('room').isLength({ min: 1 }).trim().withMessage('Room must be specified. '),
-  body('adults').isLength({ min: 1 }).trim().withMessage('At least 1 adult is required. '),
-  body('booking_date').isLength({ min: 1 }).trim().withMessage('Booking Date must be specified. '),
-  body('checkin').isLength({ min: 1 }).trim().withMessage('Check-in Date must be specified. '),
-  body('checkout').isLength({ min: 1 }).trim().withMessage('Check-out Date must be specified. '),
+  body('adults')
+    .isLength({ min: 1 }).trim().withMessage('The number of adults is required. ')
+    .isInt({ min: 1 }).trim().withMessage('At least 1 adult is required. '),
+  body('childs').isInt({ min:0 }).trim().withMessage('A value of zero or more is required for childs. '),
+  body('infants').isInt({ min:0 }).trim().withMessage('A value of zero or more is required for infants. '),
+  body('booking_date')
+    .isLength({ min: 1 }).trim().withMessage('Booking Date must be specified. '),
+  body('checkin')
+    .isLength({ min: 1 }).trim().withMessage('Check-in Date must be specified. ')
+    .isAfter(new Date().toString()).trim().withMessage('Check-in Date must be after today. '),
+  body('checkout')
+    .isLength({ min: 1 }).trim().withMessage('Check-out Date must be specified. ')
+    .isAfter(new Date().toString()).trim().withMessage('Check-out Date must be after today. '),
 
+    
   // Sanitize fields.
   sanitizeBody('customer').trim(),
   sanitizeBody('room').trim(),

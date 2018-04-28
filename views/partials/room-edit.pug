@@ -16,7 +16,7 @@ form#editRoomForm
           .row
             .col-md-6
               label(for='price') Price
-              input#price.form-control(type='number' name='price' placeholder='Price' value=room.price)   
+              input#price.form-control(type='number' name='price' placeholder='Price' value=room.price min='0')   
             .col-md-6
               label(for='pricePer') Price Per
               select#pricePer.form-control(name='pricePer' placeholder='Type')

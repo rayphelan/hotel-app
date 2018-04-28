@@ -31,13 +31,13 @@ form#editBookingForm
           .row
             .col-md-4.col-sm-12
               label(for='adults') Adults
-              input#adults.form-control(type='number' name='adults' placeholder='Adults' value=booking.adults)
+              input#adults.form-control(type='number' name='adults' placeholder='Adults' value=booking.adults min='1')
             .col-md-4.col-sm-12
               label(for='childs') Childs
-              input#childs.form-control(type='number' name='childs' placeholder='Childs' value=booking.childs)
+              input#childs.form-control(type='number' name='childs' placeholder='Childs' value=booking.childs min='0')
             .col-md-4.col-sm-12
               label(for='infants') Infants
-              input#infants.form-control(type='number' name='infants' placeholder='Infants' value=booking.infants)          
+              input#infants.form-control(type='number' name='infants' placeholder='Infants' value=booking.infants min='0')          
         .form-group
           label(for='service') Service
           select#service.form-control(name='service')

@@ -22,9 +22,15 @@ router.post('/', [
 
   // Validate fields
   body('type').isLength({ min: 1 }).trim().withMessage('Room Type must be specified. '),
-  body('max_adults').isLength({ min: 1 }).trim().withMessage('Max Adults must be specified. '),
-  body('max_childs').isLength({ min: 1 }).trim().withMessage('Max Children must be specified. '),  
-  body('max_infants').isLength({ min: 1 }).trim().withMessage('Max Infants must be specified. '),  
+  body('max_adults')
+    .isLength({ min: 1 }).trim().withMessage('Max Adults must be specified. ')
+    .isInt({ min: 1 }).trim().withMessage('At least 1 adult is required. '),
+  body('max_childs')
+    .isLength({ min: 1 }).trim().withMessage('Max Children must be specified. ')  
+    .isInt({ min: 0 }).trim().withMessage('Max Children must be zero or more. '),  
+  body('max_infants')
+    .isLength({ min: 1 }).trim().withMessage('Max Infants must be specified. ') 
+    .isInt({ min: 0 }).trim().withMessage('Max Infants must be zero or more. '),  
 
   // Sanitize fields.
   sanitizeBody('type').trim(),
@@ -70,9 +76,15 @@ router.put('/:id', [
 
   // Validate fields
   body('type').isLength({ min: 1 }).trim().withMessage('Room Type must be specified. '),
-  body('max_adults').isLength({ min: 1 }).trim().withMessage('Max Adults must be specified. '),
-  body('max_childs').isLength({ min: 1 }).trim().withMessage('Max Children must be specified. '),  
-  body('max_infants').isLength({ min: 1 }).trim().withMessage('Max Infants must be specified. '),  
+  body('max_adults')
+    .isLength({ min: 1 }).trim().withMessage('Max Adults must be specified. ')
+    .isInt({ min: 1 }).trim().withMessage('At least 1 adult is required. '),
+  body('max_childs')
+    .isLength({ min: 1 }).trim().withMessage('Max Children must be specified. ')  
+    .isInt({ min: 0 }).trim().withMessage('Max Children must be zero or more. '),  
+  body('max_infants')
+    .isLength({ min: 1 }).trim().withMessage('Max Infants must be specified. ') 
+    .isInt({ min: 0 }).trim().withMessage('Max Infants must be zero or more. '),  
 
   // Sanitize fields.
   sanitizeBody('type').trim(),

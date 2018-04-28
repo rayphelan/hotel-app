@@ -27,7 +27,9 @@ router.post('/', [
   // Validate fields
   body('name').isLength({ min: 1 }).trim().withMessage('Room Name must be specified. '),
   body('roomtype').isLength({ min: 1 }).trim().withMessage('Room Type must be specified. '),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified. '),
+  body('price')
+    .isLength({ min: 1 }).trim().withMessage('Price must be specified. ')
+    .isInt({ min: 0 }).trim().withMessage('Price must be zero or more. '),
   body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified. '),
 
   // Sanitize fields.
@@ -77,7 +79,9 @@ router.put('/:id', [
   // Validate fields
   body('name').isLength({ min: 1 }).trim().withMessage('Room Name must be specified. '),
   body('roomtype').isLength({ min: 1 }).trim().withMessage('Room Type must be specified. '),
-  body('price').isLength({ min: 1 }).trim().withMessage('Price must be specified. '),
+  body('price')
+    .isLength({ min: 1 }).trim().withMessage('Price must be specified. ')
+    .isInt({ min: 0 }).trim().withMessage('Price must be zero or more. '),
   body('pricePer').isLength({ min: 1 }).trim().withMessage('Price Per must be specified. '),
 
   // Sanitize fields.

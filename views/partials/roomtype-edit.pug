@@ -11,13 +11,13 @@ form#editRoomtypeForm
           .row
             .col-md-4
               label(for='max_adults') Maximum Adults
-              input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults' value=roomtype.max_adults)
+              input#max_adults.form-control(type='number' name='max_adults' placeholder='Maximum Adults' value=roomtype.max_adults min='1')
             .col-md-4
               label(for='max_childs') Maximum Children
-              input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children' value=roomtype.max_childs)
+              input#max_childs.form-control(type='number' name='max_childs' placeholder='Maximum Children' value=roomtype.max_childs min='0')
             .col-md-4
               label(for='max_infants') Maximum Infants
-              input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants' value=roomtype.max_infants)              
+              input#max_infants.form-control(type='number' name='max_infants' placeholder='Maximum Infants' value=roomtype.max_infants min='0')              
     .modal-footer
       .div#errorMessage
       button.btn.btn-default(type='button' data-dismiss='modal') Cancel
